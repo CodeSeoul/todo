@@ -17,8 +17,18 @@ function populate() {
 function addEventListeners() {
   $('#btnAdd').click(() => {
     let $inAdd = $('#inAdd').val();
-    tasks.push($inAdd);
-    populate();
-    console.log("added " + $inAdd);
+    if (validateLength($inAdd) === true) {
+      tasks.push($inAdd);
+      populate();
+      console.log("added " + $inAdd);
+    } else {
+      window.alert(validateLength($inAdd));
+    }
   });
+}
+
+function validateLength($inAdd) {
+  if ($inAdd.length < 1) return "Opps, Todo shouldn't be blank"
+  if ($inAdd.length > 70) return "Todo should be less than 70 characters, yours is " + $inAdd.length + "."
+  return true;
 }
