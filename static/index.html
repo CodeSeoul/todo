@@ -2,16 +2,28 @@
 <html>
   <head>
     <meta charset="utf-8">
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;lang=en" />
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
     <title>To Do App</title>
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/script.js"></script>
+    <link rel="stylesheet" type="text/css"  href="css/style.css">
   </head>
   <body>
     <h1>Things to do:</h1>
-    <ul id="taskList"></ul>
-      <input id="inAdd" type="text" name="hi" value=""/>
-      <button id="btnAdd" type="button" name="button">Add Task</button>
+    <ul id="taskList" class="list-group"></ul>
+      <input class="form-control" id="inAdd" type="text"
+      name="hi" value="" placeholder="Add some tasks..."/>
+      <button class="btn" id="btnAdd" type="button"
+      name="button"><span class="glyphicon glyphicon-plus-sign"
+      aria-hidden="true"></span> Add a Task</button>
+      <button class="btn" id="btnRemove" type="button"
+      name="button"><span class="glyphicon glyphicon-minus-sign"
+      aria-hidden="true"></span> Remove Task</button>
+      <button class="btn" id="btnClear" type="button"
+      name="button"><span class="glyphicon glyphicon-remove-sign"
+      aria-hidden="true"></span> Clear All Tasks</button>
   </body>
 
 </html>

@@ -9,7 +9,7 @@ function populate() {
   let $tasks = $('#taskList');
   $tasks.html('');
   for (let i = 0; i < tasks.length; i++) {
-    let $task = $('<li>').text(tasks[i]);
+    let $task = $('<li class="list-group-item">').text(tasks[i]);
     $tasks.append($task);
   }
 }
@@ -19,6 +19,6 @@ function addEventListeners() {
     let $inAdd = $('#inAdd').val();
     tasks.push($inAdd);
     populate();
-    window.alert("added " + $inAdd);
+    console.log("added " + $inAdd);
   });
 }
