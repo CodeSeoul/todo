@@ -1,0 +1,9 @@
+{
+  "name": "Todo",
+  "version": "0.0.1",
+  "description": "Learn Teach Code Seoul Todo Web App",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  }
+}
