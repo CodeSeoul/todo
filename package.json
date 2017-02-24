@@ -4,6 +4,10 @@
   "description": "Learn Teach Code Seoul Todo Web App",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0"
   }
 }
