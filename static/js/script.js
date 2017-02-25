@@ -22,7 +22,7 @@ function populate() {
 function addEventListenersToAdd() {
   $('#btnAdd').click(() => {
     let $inAdd = $('#inAdd').val();
-    let btnValidity = validateLength($inAdd);
+    let btnValidity = checkValidityButtons($inAdd, "a");
     if (btnValidity === true) {
       tasks.push($inAdd);
       populate();
@@ -52,8 +52,17 @@ function removeTask(id) {
   populate();
 }
 
-function validateLength($inAdd) {
+function checkValidityButtons($inAdd, op) { // @: $inAdd: texture input, op: operation code
   if ($inAdd.length < 1) return "Opps, Todo shouldn't be blank";
   if ($inAdd.length > 70) return "Todo should be less than 70 characters, yours is " + $inAdd.length + ".";
+
+  let isTaskInList = tasks.includes($inAdd);
+
+  if (op == "a" && isTaskInList) { // Checks Add Button
+    return "Oops, Task is already in the list";
+  } else if (op == "r" && !isTaskInList) { //Checks Remove Buton
+    return "Oops, Task is NOT in the list";
+  }
+
   return true;
 }
