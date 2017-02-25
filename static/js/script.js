@@ -12,8 +12,9 @@ function populate() {
   $tasks.html('');
   for (let i = 0; i < tasks.length; i++) {
     let $task = $('<li class="list-group-item">');
-    $task.html(`<input type="checkbox" name="checkRemove" id="${i}" style="align:left">` +
-      tasks[i] + `<button name="trash-icon" id="${tasks[i]}" onClick="removeTask"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>`);
+    let taskHtml = `<input type="checkbox" name="checkRemove" id="${i}" style="align:left">` +
+      tasks[i] + `<button name="trash-icon" id="${tasks[i]}" onclick="removeTask('` + tasks[i] + `')"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>`;
+    $task.html(taskHtml);
     $tasks.append($task);
   }
 }
@@ -33,7 +34,7 @@ function addEventListenersToAdd() {
 
 function addEventListenersToRemove() {
   $('#btnRemove').click(() => {
-    let confirmation = window.alert("Comming soon!")
+    let confirmation = window.alert("Comming soon!");
   });
 }
 
@@ -44,8 +45,7 @@ function addEventListenersToRemove() {
 //   });
 // }
 
-function removeTask() {
-  let id = $(this).attr('id');
+function removeTask(id) {
   let index = tasks.indexOf(id);
   tasks.splice(index, 1);
   populate();
