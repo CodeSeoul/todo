@@ -1,4 +1,4 @@
-let tasks = ['Go to store','Buy Bacon','Eat Bacon'];
+let tasks = ['Go to store','Buy Bacon','Eat Bacon','Look at bacon','Think about Bacon'];
 
 $(document).ready(() => {
   populate();
@@ -33,8 +33,13 @@ function addEventListenersToAdd() {
 }
 
 function addEventListenersToRemove() {
-  $('#btnRemove').click(() => {
-    let confirmation = window.alert("Comming soon!");
+  $('#btnRemove').click(function() {
+    let checkedItems = $('input[type="checkbox"]:checkbox:checked');
+    for (let i = 0; i < checkedItems.length; i++) {
+      let id = checkedItems[i - i].id
+      tasks.splice(id, 1);
+    }
+    populate();
   });
 }
 
