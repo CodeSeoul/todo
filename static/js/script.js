@@ -22,12 +22,13 @@ function populate() {
 function addEventListenersToAdd() {
   $('#btnAdd').click(() => {
     let $inAdd = $('#inAdd').val();
-    if (validateLength($inAdd) === true) {
+    let btnValidity = validateLength($inAdd);
+    if (btnValidity === true) {
       tasks.push($inAdd);
       populate();
       console.log("added " + $inAdd);
     } else {
-      window.alert(validateLength($inAdd));
+      window.alert(btnValidity);
     }
   });
 }
