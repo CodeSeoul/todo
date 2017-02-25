@@ -28,7 +28,7 @@ function addEventListeners() {
 }
 
 function validateLength($inAdd) {
-  if ($inAdd.length < 1) return "Opps, Todo shouldn't be blank"
-  if ($inAdd.length > 70) return "Todo should be less than 70 characters, yours is " + $inAdd.length + "."
+  if ($inAdd.length < 1) return "Opps, Todo shouldn't be blank";
+  if ($inAdd.length > 70) return "Todo should be less than 70 characters, yours is " + $inAdd.length + ".";
   return true;
 }
