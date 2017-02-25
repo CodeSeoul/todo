@@ -2,19 +2,24 @@ let tasks = ['Go to store','Buy Bacon','Eat Bacon'];
 
 $(document).ready(() => {
   populate();
-  addEventListeners();
+  addEventListenersToAdd();
+  addEventListenersToRemove();
+  // addEventLIstenersToTrash();
 });
 
 function populate() {
   let $tasks = $('#taskList');
   $tasks.html('');
   for (let i = 0; i < tasks.length; i++) {
-    let $task = $('<li class="list-group-item">').text(tasks[i]);
+    let $task = $('<li class="list-group-item">');
+    let taskHtml = `<input type="checkbox" name="checkRemove" id="${i}" style="align:left">` +
+      tasks[i] + `<button name="trash-icon" id="${tasks[i]}" onclick="removeTask('` + tasks[i] + `')"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>`;
+    $task.html(taskHtml);
     $tasks.append($task);
   }
 }
 
-function addEventListeners() {
+function addEventListenersToAdd() {
   $('#btnAdd').click(() => {
     let $inAdd = $('#inAdd').val();
     if (validateLength($inAdd) === true) {
@@ -25,6 +30,25 @@ function addEventListeners() {
       window.alert(validateLength($inAdd));
     }
   });
+}
+
+function addEventListenersToRemove() {
+  $('#btnRemove').click(() => {
+    let confirmation = window.alert("Comming soon!");
+  });
+}
+
+// function addEventLIstenersToTrash() {
+//   $('button[name="trash-icon"]').each(function() {
+//     $(this).click(function(event, id) {
+//     }, $(this).attr('id'));
+//   });
+// }
+
+function removeTask(id) {
+  let index = tasks.indexOf(id);
+  tasks.splice(index, 1);
+  populate();
 }
 
 function validateLength($inAdd) {
