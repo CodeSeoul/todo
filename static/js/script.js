@@ -9,7 +9,8 @@ function populate() {
   let $tasks = $('#taskList');
   $tasks.html('');
   for (let i = 0; i < tasks.length; i++) {
-    let $task = $('<li class="list-group-item">').text(tasks[i]);
+    let $task = $('<li class="list-group-item">');
+    $task.html('<input type="checkbox" stylle="align:left">' + tasks[i]);
     $tasks.append($task);
   }
 }
