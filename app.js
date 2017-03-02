@@ -6,6 +6,15 @@ var fs = require('fs');
 var server = http.createServer((req, res) => {
   if (req.url === '/') {
     serveStatic('/index.html', res);
+  } else if (req.method === 'GET' && req.url === '/tasks') {
+    console.log('GET /tasks');
+    res.end('GET /tasks');
+  } else if (req.method === 'POST' && req.url === '/tasks') {
+    console.log('POST /tasks');
+    res.end('POST /tasks');
+  } else if (req.method === 'DELETE' && req.url === '/tasks') {
+    console.log('DELETE /tasks');
+    res.end('DELETE /tasks');
   } else {
     serveStatic(req.url, res);
   }
