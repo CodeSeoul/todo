@@ -1,19 +1,21 @@
 var http = require('http');
 var fs = require('fs');
+var Repository = require('./src/repository');
 
 //TODO I think we should add a switch statement, starting to get long
+let repo = new Repository();
 
 var server = http.createServer((req, res) => {
   if (req.url === '/') {
     serveStatic('/index.html', res);
   } else if (req.method === 'GET' && req.url === '/tasks') {
-    console.log('GET /tasks');
+    repo.findTasks();
     res.end('GET /tasks');
   } else if (req.method === 'POST' && req.url === '/tasks') {
-    console.log('POST /tasks');
+    repo.addTask();
     res.end('POST /tasks');
   } else if (req.method === 'DELETE' && req.url === '/tasks') {
-    console.log('DELETE /tasks');
+    repo.deleteTask();
     res.end('DELETE /tasks');
   } else {
     serveStatic(req.url, res);
@@ -30,7 +32,7 @@ function serveStatic(path, res) {
 }
 
 function pageNotFound(res) {
-  console.console.log("couldn't find CSS");
+  console.log("couldn't find CSS");
   res.statusCode = 404;
   res.end('Page not found');
 }
