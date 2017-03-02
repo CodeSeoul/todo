@@ -5,6 +5,7 @@ $(document).ready(() => {
   addEventListenersToAdd();
   addEventListenersToRemove();
   // addEventLIstenersToTrash();
+  $('#btnAjax').click(callAjax);
 });
 
 function populate() {
@@ -37,7 +38,7 @@ function addEventListenersToRemove() {
   $('#btnRemove').click(function() {
     let checkedItems = $('input[type="checkbox"]:checkbox:checked');
     for (let i = 0; i < checkedItems.length; i++) {
-      let id = checkedItems[i - i].id
+      let id = checkedItems[i - i].id;
       tasks.splice(id, 1);
     }
     populate();
@@ -70,4 +71,11 @@ function checkValidityButtons($inAdd, op) { // @: $inAdd: texture input, op: ope
   }
 
   return true;
+}
+
+function callAjax() {
+  $.get('http://localhost:3000/tasks')
+    .done(data => {
+      window.alert(data);
+    });
 }
