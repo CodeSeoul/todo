@@ -5,5 +5,17 @@
 ## How to run
 
 ```
-$ node app.js
+$ node start
+```
+
+## How to test
+
+```
+$ node test
+```
+
+## How to develop
+
+```
+$ node run dev
 ```
