@@ -19,3 +19,9 @@ $ node test
 ```
 $ node run dev
 ```
+
+## How to lint
+
+```
+$ node run lint
+```

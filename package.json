@@ -3,13 +3,19 @@
   "version": "0.0.1",
   "description": "Learn Teach Code Seoul Todo Web App",
   "main": "app.js",
+  "standard": {
+    "globals": ["$", "describe", "it"]
+  },
   "scripts": {
     "start": "node app",
-    "test": "mocha",
-    "dev": "nodemon app"
+    "test": "standard && mocha",
+    "dev": "nodemon app",
+    "lint": "standard",
+    "lint-fix": "standard --fix"
   },
   "devDependencies": {
     "mocha": "^3.2.0",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "standard": "^9.0.1"
   }
 }
