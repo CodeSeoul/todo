@@ -13,11 +13,18 @@ var server = http.createServer((req, res) => {
       res.end(data)
     })
   } else if (req.method === 'POST' && req.url === '/tasks') {
-    repo.addTask()
-    res.end('POST /tasks')
+    req.setEncoding('utf8')
+    req.on('data', (data) => {
+      repo.addTask(data)
+      res.end(data)
+    })
   } else if (req.method === 'DELETE' && req.url === '/tasks') {
-    repo.deleteTask()
-    res.end('DELETE /tasks')
+    req.setEncoding('utf8')
+    req.on('data', (deleteData) => {
+      console.log('deleteData:', deleteData)
+      repo.deleteTask(deleteData)
+      res.end()
+    })
   } else {
     serveStatic(req.url, res)
   }
