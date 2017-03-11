@@ -13,7 +13,7 @@ var server = http.createServer((req, res) => {
       res.end(data)
     })
   } else if (req.method === 'POST' && req.url === '/tasks') {
-    req.setEncoding("utf8")
+    req.setEncoding('utf8')
     req.on('data', (data) => {
       repo.addTask(data)
       res.end(data)
