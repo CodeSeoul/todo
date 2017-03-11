@@ -52,11 +52,11 @@ function addEventListenersToRemove () {
 //   });
 // }
 
-function removeTask (id) {
-  let index = tasks.indexOf(id)
-  tasks.splice(index, 1)
-  populate();;
-}
+// function removeTask (id) {
+//   let index = tasks.indexOf(id)
+//   tasks.splice(index, 1)
+//   populate()
+// }
 
 function checkValidityButtons ($inAdd, op) { // @: $inAdd: texture input, op: operation code
   if ($inAdd.length < 1) return "Opps, Todo shouldn't be blank"
