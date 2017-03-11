@@ -4,7 +4,8 @@
   "description": "Learn Teach Code Seoul Todo Web App",
   "main": "app.js",
   "standard": {
-    "globals": ["$", "describe", "it"]
+    "globals": ["$", "describe", "it"],
+    "ignore": ["static/js/script.js"]
   },
   "scripts": {
     "start": "node app",

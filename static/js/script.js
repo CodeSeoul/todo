@@ -1,16 +1,14 @@
- let tasks = ['Go to store', 'Buy Bacon', 'Eat Bacon', 'Look at bacon', 'Think about Bacon']
-
- $(document).ready(() => {
-   populate()
-   addEventListenersToAdd()
-   addEventListenersToRemove()
+$(document).ready(() => {
+  populate()
+  addEventListenersToAdd()
+  addEventListenersToRemove()
   // addEventLIstenersToTrash();
-   $('#btnAjax').click(callAjax)
- })
+  $('#btnAjax').click(callAjax)
+})
 
- function populate () {
-   let $tasks = $('#taskList')
-   $.get('http://localhost:3000/tasks')
+function populate () {
+  let $tasks = $('#taskList')
+  $.get('http://localhost:3000/tasks')
     .done(data => {
       let tasks = JSON.parse(data)
       $tasks.html('')
@@ -22,48 +20,60 @@
         $tasks.append($task)
       }
     })
- }
+}
 
- function addEventListenersToAdd () {
-   $('#btnAdd').click(() => {
-     let inAdd = $('#inAdd').val()
-     let btnValidity = checkValidityButtons(inAdd, 'a')
-     if (btnValidity === true) {
-       $.post('http://localhost:3000/tasks', inAdd)
+function addEventListenersToAdd () {
+  $('#btnAdd').click(() => {
+    let inAdd = $('#inAdd').val()
+    let btnValidity = checkValidityButtons(inAdd, 'a')
+    if (btnValidity === true) {
+      $.post('http://localhost:3000/tasks', inAdd)
         .done(data => {
           populate()
         })
-     } else {
-       window.alert(btnValidity)
-     }
-   })
- }
+    } else {
+      window.alert(btnValidity)
+    }
+  })
+}
 
- function addEventListenersToRemove () {
-   $('#btnRemove').click(function () {
-     let checkedItems = $('input[type="checkbox"]:checkbox:checked')
-     for (let i = 0; i < checkedItems.length; i++) {
-       let id = checkedItems[i - i].id
-       tasks.splice(id, 1)
-     }
-     populate()
-   })
- }
+function addEventListenersToRemove () {
+  // $('#btnRemove').click(function () {
+  //   let checkedItems = $('input[type="checkbox"]:checkbox:checked')
+  //   for (let i = 0; i < checkedItems.length; i++) {
+  //     let id = checkedItems[i - i].id
+  //     tasks.splice(id, 1)
+  //   }
+  //   populate()
+  // })
+}
 
-// function addEventLIstenersToTrash() {
-//   $('button[name="trash-icon"]').each(function() {
-//     $(this).click(function(event, id) {
-//     }, $(this).attr('id'));
-//   });
+// function addEventLIstenersToTrash () {
+//   $('button[name="trash-icon"]').each(function () {
+//     $(this).click(function (event, id) {
+//       $.ajax({
+//         url: 'http://localhost:3000/tasks',
+//         method: 'DELETE',
+//         data: id
+//       }).done(data => {
+//         populate()
+//       })
+//     }, $(this).attr('id'))
+//   })
 // }
 
-// function removeTask (id) {
-//   let index = tasks.indexOf(id)
-//   tasks.splice(index, 1)
-//   populate()
-// }
+function removeTask (id) {
+  console.log('id:', id)
+  $.ajax({
+    url: 'http://localhost:3000/tasks',
+    method: 'DELETE',
+    data: id
+  }).done(data => {
+    populate()
+  })
+}
 
- function checkValidityButtons ($inAdd, op) { // @: $inAdd: texture input, op: operation code
+function checkValidityButtons ($inAdd, op) { // @: $inAdd: texture input, op: operation code
   // if ($inAdd.length < 1) return "Opps, Todo shouldn't be blank"
   // if ($inAdd.length > 70) return 'Todo should be less than 70 characters, yours is ' + $inAdd.length + '.'
   //
@@ -75,12 +85,12 @@
   //   return 'Oops, Task is NOT in the list'
   // }
   //
-   return true
- }
+  return true
+}
 
- function callAjax () {
-   $.get('http://localhost:3000/tasks')
+function callAjax () {
+  $.get('http://localhost:3000/tasks')
     .done(data => {
       window.alert(data)
     })
- }
+}
