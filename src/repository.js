@@ -61,15 +61,28 @@ class Repository {
 
   deleteSelectedTasks(arr, callback) {
     console.log('deleteSelectedTasks')
-    for (let i = 0; i < arr.length; i++){
-      console.log(arr[i])
-      this.deleteTask(arr[i], () => {
-        console.log(i + ' : element deleted' )
-        if (i === arr.length - 1) {
-          callback()
+    fs.readFile(path.join(__dirname, 'tasks.dat'), (err, data) => {
+      if (err) {
+        console.log('error reading')
+      } else {
+        let taskArray = JSON.parse(data)
+        // console.log('Task before ',taskArray
+        for (let i = 0; i < arr.length; i++) {
+          let index = taskArray.indexOf(arr[i])
+          taskArray.splice(index, 1)
+          console.log('index ' + index)
+          console.log('task after ', taskArray)
         }
-      })
-    }
+        fs.writeFile(path.join(__dirname, 'tasks.dat'), JSON.stringify(taskArray), (err) => {
+          if (err) {
+            console.log('error writing')
+          } else {
+            console.log('successfully written')
+            if (callback) callback()
+          }
+        })
+      }
+    })
   }
 
 }
