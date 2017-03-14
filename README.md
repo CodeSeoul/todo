@@ -6,23 +6,28 @@
 ## How to run
 
 ```
-$ node start
+$ npm start
 ```
 
 ## How to test
 
 ```
-$ node test
+$ npm test
 ```
 
 ## How to develop
 
 ```
-$ node run dev
+$ npm run dev
 ```
 
 ## How to lint
 
 ```
-$ node run lint
+$ npm run lint
+```
+
+### How to fix simple lint errors
+```
+$ npm run lint-fix
 ```
