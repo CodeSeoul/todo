@@ -3,7 +3,7 @@ const expect = require('chai').expect
 const fs = require('fs')
 
 let repo
-describe('repository', function () {
+describe('Repository', function () {
   before(function (done) {
     repo = new Repository()
     let data = '["Eat","Sleep","Play"]'
@@ -18,7 +18,7 @@ describe('repository', function () {
     it('should find all the tasks', function (done) {
       repo.findTasks((data) => {
         console.log('- after findTask:', data.toString())
-        expect(JSON.parse(data.toString())).have.length.least(0)
+        expect(JSON.parse(data.toString())).have.length.at.least(2)
         done()
       })
     })
@@ -29,6 +29,7 @@ describe('repository', function () {
       repo.addTask('foobar', () => {
         repo.findTasks((data) => {
           console.log('- after addTask:', data.toString())
+          expect(JSON.parse(data.toString())).lengthOf(4)
           expect(data.toString()).to.include('foobar')
           done()
         })
@@ -41,6 +42,7 @@ describe('repository', function () {
       repo.deleteTask('foobar', () => {
         repo.findTasks((data) => {
           console.log('- after deleteTask:', data.toString())
+          expect(JSON.parse(data.toString())).lengthOf(3)
           expect(data.toString()).not.to.include('foobar')
           done()
         })
