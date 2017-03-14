@@ -58,6 +58,20 @@ class Repository {
       }
     })
   }
+
+  deleteSelectedTasks(arr, callback) {
+    console.log('deleteSelectedTasks')
+    for (let i = 0; i < arr.length; i++){
+      console.log(arr[i])
+      this.deleteTask(arr[i], () => {
+        console.log(i + ' : element deleted' )
+        if (i === arr.length - 1) {
+          callback()
+        }
+      })
+    }
+  }
+
 }
 
 module.exports = Repository

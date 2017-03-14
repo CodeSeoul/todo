@@ -47,4 +47,18 @@ describe('repository', function () {
       })
     })
   })
+
+  describe('#deleteSelectedTasks', function () {
+    it('should delete all selected tasks', function (done) {
+      repo.deleteSelectedTasks(['Eat', 'Sleep'], () => {
+        repo.findTasks((data) => {
+          console.log('- after deleteSelectedTasks:')
+          expect(data.toString()).not.to.include('Eat').not.to.include('Sleep')
+          done()
+        })
+      })
+    })
+  })
+
+
 })
