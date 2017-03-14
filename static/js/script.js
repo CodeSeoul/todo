@@ -40,7 +40,6 @@ function addEventListenersToAdd () {
 function addEventListenersToRemove () {
   $('#btnRemove').click(function () {
     let checkedItems = $('input[type="checkbox"]:checkbox:checked')
-    console.log(checkedItems)
     let arr = []
     for (let i = 0; i < checkedItems.length; i++) {
       arr.push(checkedItems[i].id)
@@ -48,7 +47,7 @@ function addEventListenersToRemove () {
     $.ajax({
       url: 'http://localhost:3000/tasks',
       method: 'DELETE',
-      contentType: 'application/json',  
+      contentType: 'application/json',
       data: JSON.stringify(arr)
     }).done(data => {
       populate()

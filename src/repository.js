@@ -59,7 +59,7 @@ class Repository {
     })
   }
 
-  deleteSelectedTasks(arr, callback) {
+  deleteSelectedTasks (arr, callback) {
     console.log('deleteSelectedTasks')
     fs.readFile(path.join(__dirname, 'tasks.dat'), (err, data) => {
       if (err) {
@@ -84,7 +84,6 @@ class Repository {
       }
     })
   }
-
 }
 
 module.exports = Repository

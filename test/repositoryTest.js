@@ -1,14 +1,15 @@
 const Repository = require('../src/repository')
 const expect = require('chai').expect
 const fs = require('fs')
+const path = require('path')
 
 let repo
 describe('Repository', function () {
   before(function (done) {
     repo = new Repository()
     let data = '["Eat","Sleep","Play"]'
-    fs.writeFile('../src/tasks.dat', data, (err) => {
-      if (err) console.log('- failed to initialize data')
+    fs.writeFile(path.join(__dirname, '../src/tasks.dat'), data, (err) => {
+      if (err) console.log('- failed to initialize data:' + err)
       console.log('- Initialized data')
       done()
     })
@@ -55,12 +56,11 @@ describe('Repository', function () {
       repo.deleteSelectedTasks(['Sleep', 'Eat'], () => {
         repo.findTasks((data) => {
           console.log('- after deleteSelectedTasks:')
+          expect(JSON.parse(data.toString())).lengthOf(1)
           expect(data.toString()).not.to.include('Eat').not.to.include('Sleep')
           done()
         })
       })
     })
   })
-
-
 })

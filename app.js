@@ -21,8 +21,8 @@ var server = http.createServer((req, res) => {
   } else if (req.method === 'DELETE' && req.url === '/tasks') {
     req.setEncoding('utf8')
     req.on('data', (arr) => {
-      console.log('deleteData:', arr)
-      repo.deleteSelectedTasks(arr)
+      console.log('deleteData:', JSON.parse(arr))
+      repo.deleteSelectedTasks(JSON.parse(arr))
       res.end()
     })
   } else {
