@@ -4,17 +4,22 @@
   "description": "Learn Teach Code Seoul Todo Web App",
   "main": "app.js",
   "standard": {
-    "globals": ["$", "describe", "it"],
-    "ignore": ["static/js/script.js"]
+    "globals": [
+      "$"
+    ],
+    "ignore": [
+      "static/js/script.js"
+    ]
   },
   "scripts": {
     "start": "node app",
-    "test": "standard && mocha",
+    "test": "standard  --env mocha && mocha",
     "dev": "nodemon app",
-    "lint": "standard",
-    "lint-fix": "standard --fix"
+    "lint": "standard --env mocha",
+    "lint-fix": "standard --env mocha --fix"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
     "mocha": "^3.2.0",
     "nodemon": "^1.11.0",
     "standard": "^9.0.1"
