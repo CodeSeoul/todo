@@ -13,7 +13,7 @@ class Repository {
     })
   }
 
-  addTask (task) {
+  addTask (task, callback) {
     console.log('addTask')
 
     fs.readFile(path.join(__dirname, 'tasks.dat'), (err, data) => {
@@ -28,13 +28,14 @@ class Repository {
             console.log('error writing')
           } else {
             console.log('successfully written')
+            if (callback) callback()
           }
         })
       }
     })
   }
 
-  deleteTask (taskToDelete) {
+  deleteTask (taskToDelete, callback) {
     console.log('deleteTask')
     fs.readFile(path.join(__dirname, 'tasks.dat'), (err, data) => {
       if (err) {
@@ -51,6 +52,7 @@ class Repository {
             console.log('error writing')
           } else {
             console.log('successfully written')
+            if (callback) callback()
           }
         })
       }
