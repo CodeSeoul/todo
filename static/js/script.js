@@ -3,7 +3,6 @@ $(document).ready(() => {
   addEventListenersToAdd()
   addEventListenersToRemove()
   // addEventLIstenersToTrash();
-  $('#btnAjax').click(callAjax)
 })
 
 function populate () {
@@ -93,11 +92,4 @@ function checkValidityButtons ($inAdd, op) { // @: $inAdd: texture input, op: op
   // }
   //
   return true
-}
-
-function callAjax () {
-  $.get('http://localhost:3000/tasks')
-    .done(data => {
-      window.alert(data)
-    })
 }
