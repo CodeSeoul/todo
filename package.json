@@ -13,7 +13,7 @@
   },
   "scripts": {
     "start": "node app",
-    "test": "standard  --env mocha && mocha",
+    "test": "standard --env mocha && mocha",
     "dev": "nodemon app",
     "lint": "standard --env mocha",
     "lint-fix": "standard --env mocha --fix"
