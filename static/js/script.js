@@ -29,9 +29,19 @@ function addEventListenersToAdd () {
     let inAdd = $('#inAdd').val()
     let btnValidity = checkValidityButtons(inAdd, 'a')
     if (btnValidity === true) {
-      $.post('http://localhost:3000/tasks', inAdd)
+      $.get('http://localhost:3000/tasks')
         .done(data => {
-          populate()
+
+          let tasks = JSON.parse(data)
+          console.log(data)
+          if (tasks.indexOf(inAdd) === -1) {
+            $.post('http://localhost:3000/tasks', inAdd)
+              .done(data => {
+                populate()
+              })
+            } else {
+              window.alert('that todo is already on the list')
+            }
         })
     } else {
       window.alert(btnValidity)
@@ -84,8 +94,9 @@ function removeTask (event) {
 }
 
 function checkValidityButtons ($inAdd, op) { // @: $inAdd: texture input, op: operation code
-  // if ($inAdd.length < 1) return "Opps, Todo shouldn't be blank"
-  // if ($inAdd.length > 70) return 'Todo should be less than 70 characters, yours is ' + $inAdd.length + '.'
+  if ($inAdd.length < 1) return "Opps, Todo shouldn't be blank"
+  if ($inAdd.length > 70) return 'Todo should be less than 70 characters, yours is ' + $inAdd.length + '.'
+
   //
   // let isTaskInList = tasks.includes($inAdd)
   //
