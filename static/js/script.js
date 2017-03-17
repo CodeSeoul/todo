@@ -11,6 +11,7 @@ function populate () {
     .done(data => {
       let tasks = JSON.parse(data)
       $tasks.html('')
+      let $taskCount = $('.task-count').empty().hide().append(tasks.length).fadeIn(600)
       for (let i = 0; i < tasks.length; i++) {
         let $liTask = $('<li>').addClass('list-group-item')
         let $checkbox = $('<input>').attr('type', 'checkbox').attr('name', 'checkRemove').attr('id', tasks[i]).css('align', 'left')

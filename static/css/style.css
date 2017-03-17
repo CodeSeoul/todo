@@ -28,3 +28,10 @@ button{
   background-color: #C5CAE9;
     margin: 0px 3px 3px 3px;
 }
+
+.task-count {
+  padding: 30px;
+  font-size: 60px;
+  color: #F4D03F;
+  transition: width 2s, height 2s, transform 2s;
+}
