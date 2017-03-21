@@ -84,6 +84,24 @@ class Repository {
       }
     })
   }
+
+  deleteAllTasks (callback) {
+    console.log('deleteAllTasks')
+    fs.readFile(path.join(__dirname, 'tasks.dat'), (err, data) => {
+      if (err) {
+        console.log('error reading')
+      } else {
+        fs.writeFile(path.join(__dirname, 'tasks.dat'), JSON.stringify([]), (err) => {
+          if (err) {
+            console.log('error writing')
+          } else {
+            console.log('successfully written')
+            if (callback) callback()
+          }
+        })
+      }
+    })
+  }
 }
 
 module.exports = Repository

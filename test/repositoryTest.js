@@ -63,4 +63,16 @@ describe('Repository', function () {
       })
     })
   })
+
+  describe('#deleteAllTasks', function () {
+    it('should delete all tasks', function (done) {
+      repo.deleteAllTasks(() => {
+        repo.findTasks((data) => {
+          console.log('- after deleteAllTasks:')
+          expect(JSON.parse(data.toString())).lengthOf(0)
+          done()
+        })
+      })
+    })
+  })
 })
