@@ -2,7 +2,7 @@ $(document).ready(() => {
   populate()
   addEventListenersToAdd()
   addEventListenersToRemove()
-  addEventLIstenersToTrash()
+  addEventListenersToTrash()
 })
 
 function populate () {
@@ -67,7 +67,7 @@ function addEventListenersToRemove () {
   })
 }
 
-function addEventLIstenersToTrash () {
+function addEventListenersToTrash () {
   $('#btnClear').click(function () {
     $.ajax({
       url: 'http://localhost:3000/tasks',

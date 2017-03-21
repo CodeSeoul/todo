@@ -7,8 +7,29 @@ let repo
 describe('Repository', function () {
   before(function (done) {
     repo = new Repository()
-    let data = '["Eat","Sleep","Play"]'
-    fs.writeFile(path.join(__dirname, '../src/tasks.dat'), data, (err) => {
+    let data = [
+      {
+        _id: 1,
+        title: 'Eat',
+        status: 'Done'
+      },
+      {
+        _id: 2,
+        title: 'Sleep',
+        status: 'Todo'
+      },
+      {
+        _id: 3,
+        title: 'Play',
+        status: 'Doing'
+      },
+      {
+        _id: 4,
+        title: 'Play',
+        status: 'Archived'
+      }
+    ]
+    fs.writeFile(path.join(__dirname, '../src/tasks.dat'), JSON.stringify(data), (err) => {
       if (err) console.log('- failed to initialize data:' + err)
       console.log('- Initialized data')
       done()
@@ -18,8 +39,8 @@ describe('Repository', function () {
   describe('#findTask', function () {
     it('should find all the tasks', function (done) {
       repo.findTasks((data) => {
-        console.log('- after findTask:', data.toString())
-        expect(JSON.parse(data.toString())).have.length.at.least(2)
+        console.log('- after findTask:', data)
+        expect(data).have.length.at.least(2)
         done()
       })
     })
@@ -27,11 +48,16 @@ describe('Repository', function () {
 
   describe('#addTask', function () {
     it('should add a task', function (done) {
-      repo.addTask('foobar', () => {
+      repo.addTask({
+        title: 'Test',
+        status: 'Doing'
+      }, () => {
         repo.findTasks((data) => {
-          console.log('- after addTask:', data.toString())
-          expect(JSON.parse(data.toString())).lengthOf(4)
-          expect(data.toString()).to.include('foobar')
+          console.log('- after addTask:', data)
+          expect(data).lengthOf(5)
+          expect(data[4].title).to.equal('Test')
+          expect(data[4].status).to.equal('Doing')
+          expect(data[4]).to.have.property('_id')
           done()
         })
       })
@@ -40,11 +66,11 @@ describe('Repository', function () {
 
   describe('#deleteTask', function () {
     it('should delete a task', function (done) {
-      repo.deleteTask('foobar', () => {
+      repo.deleteTask(5, () => {
         repo.findTasks((data) => {
-          console.log('- after deleteTask:', data.toString())
-          expect(JSON.parse(data.toString())).lengthOf(3)
-          expect(data.toString()).not.to.include('foobar')
+          console.log('- after deleteTask:', data)
+          expect(data).lengthOf(4)
+          expect(data).not.to.include(5)
           done()
         })
       })
@@ -53,11 +79,11 @@ describe('Repository', function () {
 
   describe('#deleteSelectedTasks', function () {
     it('should delete all selected tasks', function (done) {
-      repo.deleteSelectedTasks(['Sleep', 'Eat'], () => {
+      repo.deleteSelectedTasks([1, 2], () => {
         repo.findTasks((data) => {
           console.log('- after deleteSelectedTasks:')
-          expect(JSON.parse(data.toString())).lengthOf(1)
-          expect(data.toString()).not.to.include('Eat').not.to.include('Sleep')
+          expect(data).lengthOf(2)
+          expect(data).not.to.include(1).not.to.include(2)
           done()
         })
       })
@@ -69,7 +95,7 @@ describe('Repository', function () {
       repo.deleteAllTasks(() => {
         repo.findTasks((data) => {
           console.log('- after deleteAllTasks:')
-          expect(JSON.parse(data.toString())).lengthOf(0)
+          expect(data).lengthOf(0)
           done()
         })
       })
