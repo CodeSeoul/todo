@@ -39,26 +39,31 @@ describe('Repository', function () {
   describe('#findTask', function () {
     it('should find all the tasks', function (done) {
       repo.findTasks((data) => {
-        console.log('- after findTask:', data.toString())
-        expect(JSON.parse(data.toString())).have.length.at.least(2)
+        console.log('- after findTask:', data)
+        expect(data).have.length.at.least(2)
         done()
       })
     })
   })
 
-  // describe('#addTask', function () {
-  //   it('should add a task', function (done) {
-  //     repo.addTask('foobar', () => {
-  //       repo.findTasks((data) => {
-  //         console.log('- after addTask:', data.toString())
-  //         expect(JSON.parse(data.toString())).lengthOf(4)
-  //         expect(data.toString()).to.include('foobar')
-  //         done()
-  //       })
-  //     })
-  //   })
-  // })
-  //
+  describe('#addTask', function () {
+    it('should add a task', function (done) {
+      repo.addTask({
+        title: 'Test',
+        status: 'Doing'
+      }, () => {
+        repo.findTasks((data) => {
+          console.log('- after addTask:', data)
+          expect(data).lengthOf(5)
+          expect(data[4].title).to.equal('Test')
+          expect(data[4].status).to.equal('Doing')
+          expect(data[4]).to.have.property('_id')
+          done()
+        })
+      })
+    })
+  })
+
   // describe('#deleteTask', function () {
   //   it('should delete a task', function (done) {
   //     repo.deleteTask('foobar', () => {
