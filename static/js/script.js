@@ -2,7 +2,7 @@ $(document).ready(() => {
   populate()
   addEventListenersToAdd()
   addEventListenersToRemove()
-  // addEventLIstenersToTrash();
+  addEventLIstenersToTrash()
 })
 
 function populate () {
@@ -67,19 +67,18 @@ function addEventListenersToRemove () {
   })
 }
 
-// function addEventLIstenersToTrash () {
-//   $('button[name="trash-icon"]').each(function () {
-//     $(this).click(function (event, id) {
-//       $.ajax({
-//         url: 'http://localhost:3000/tasks',
-//         method: 'DELETE',
-//         data: id
-//       }).done(data => {
-//         populate()
-//       })
-//     }, $(this).attr('id'))
-//   })
-// }
+function addEventLIstenersToTrash () {
+  $('#btnClear').click(function () {
+    $.ajax({
+      url: 'http://localhost:3000/tasks',
+      method: 'DELETE',
+      contentType: 'application/json',
+      data: '"ALL"'
+    }).done(data => {
+      populate()
+    })
+  })
+}
 
 function removeTask (event) {
   let id = event.target.id
@@ -97,14 +96,5 @@ function checkValidityButtons ($inAdd, op) { // @: $inAdd: texture input, op: op
   if ($inAdd.length < 1) return "Opps, Todo shouldn't be blank"
   if ($inAdd.length > 70) return 'Todo should be less than 70 characters, yours is ' + $inAdd.length + '.'
 
-  //
-  // let isTaskInList = tasks.includes($inAdd)
-  //
-  // if (op === 'a' && isTaskInList) { // Checks Add Button
-  //   return 'Oops, Task is already in the list'
-  // } else if (op === 'r' && !isTaskInList) { // Checks Remove Buton
-  //   return 'Oops, Task is NOT in the list'
-  // }
-  //
   return true
 }
