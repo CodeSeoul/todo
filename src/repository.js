@@ -36,17 +36,16 @@ class Repository {
     })
   }
 
-  deleteTask (taskToDelete, callback) {
+  deleteTask (id, callback) {
     console.log('deleteTask')
     fs.readFile(path.join(__dirname, 'tasks.dat'), (err, data) => {
       if (err) {
         console.log('error reading')
       } else {
         let taskArray = JSON.parse(data)
-        // console.log('Task before ',taskArray)
-        let index = taskArray.indexOf(taskToDelete)
-        console.log('index ' + index)
-        taskArray.splice(index, 1)
+        taskArray = taskArray.filter((task) => {
+          return task._id !== id
+        })
         console.log('task after ', taskArray)
         fs.writeFile(path.join(__dirname, 'tasks.dat'), JSON.stringify(taskArray), (err) => {
           if (err) {
@@ -67,13 +66,14 @@ class Repository {
         console.log('error reading')
       } else {
         let taskArray = JSON.parse(data)
-        // console.log('Task before ',taskArray
-        for (let i = 0; i < arr.length; i++) {
-          let index = taskArray.indexOf(arr[i])
-          taskArray.splice(index, 1)
-          console.log('index ' + index)
-          console.log('task after ', taskArray)
-        }
+        console.log('Task before ', taskArray)
+
+        taskArray = taskArray.filter(task => {
+          return arr.indexOf(task._id) === -1
+        })
+
+        console.log('task after ', taskArray)
+
         fs.writeFile(path.join(__dirname, 'tasks.dat'), JSON.stringify(taskArray), (err) => {
           if (err) {
             console.log('error writing')

@@ -64,41 +64,41 @@ describe('Repository', function () {
     })
   })
 
-  // describe('#deleteTask', function () {
-  //   it('should delete a task', function (done) {
-  //     repo.deleteTask('foobar', () => {
-  //       repo.findTasks((data) => {
-  //         console.log('- after deleteTask:', data.toString())
-  //         expect(JSON.parse(data.toString())).lengthOf(3)
-  //         expect(data.toString()).not.to.include('foobar')
-  //         done()
-  //       })
-  //     })
-  //   })
-  // })
-  //
-  // describe('#deleteSelectedTasks', function () {
-  //   it('should delete all selected tasks', function (done) {
-  //     repo.deleteSelectedTasks(['Sleep', 'Eat'], () => {
-  //       repo.findTasks((data) => {
-  //         console.log('- after deleteSelectedTasks:')
-  //         expect(JSON.parse(data.toString())).lengthOf(1)
-  //         expect(data.toString()).not.to.include('Eat').not.to.include('Sleep')
-  //         done()
-  //       })
-  //     })
-  //   })
-  // })
-  //
-  // describe('#deleteAllTasks', function () {
-  //   it('should delete all tasks', function (done) {
-  //     repo.deleteAllTasks(() => {
-  //       repo.findTasks((data) => {
-  //         console.log('- after deleteAllTasks:')
-  //         expect(JSON.parse(data.toString())).lengthOf(0)
-  //         done()
-  //       })
-  //     })
-  //   })
-  // })
+  describe('#deleteTask', function () {
+    it('should delete a task', function (done) {
+      repo.deleteTask(5, () => {
+        repo.findTasks((data) => {
+          console.log('- after deleteTask:', data)
+          expect(data).lengthOf(4)
+          expect(data).not.to.include(5)
+          done()
+        })
+      })
+    })
+  })
+
+  describe('#deleteSelectedTasks', function () {
+    it('should delete all selected tasks', function (done) {
+      repo.deleteSelectedTasks([1, 2], () => {
+        repo.findTasks((data) => {
+          console.log('- after deleteSelectedTasks:')
+          expect(data).lengthOf(2)
+          expect(data).not.to.include(1).not.to.include(2)
+          done()
+        })
+      })
+    })
+  })
+
+  describe('#deleteAllTasks', function () {
+    it('should delete all tasks', function (done) {
+      repo.deleteAllTasks(() => {
+        repo.findTasks((data) => {
+          console.log('- after deleteAllTasks:')
+          expect(data).lengthOf(0)
+          done()
+        })
+      })
+    })
+  })
 })
