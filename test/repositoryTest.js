@@ -16,7 +16,7 @@ describe('Repository', function () {
       {
         _id: 2,
         title: 'Sleep',
-        status: 'Todo'
+        status: 'ToDo'
       },
       {
         _id: 3,
