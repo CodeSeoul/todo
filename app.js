@@ -15,6 +15,7 @@ var server = http.createServer((req, res) => {
   } else if (req.method === 'POST' && req.url === '/tasks') {
     req.setEncoding('utf8')
     req.on('data', (data) => {
+      console.log("data:", data)
       repo.addTask(data)
       res.end(data)
     })
