@@ -8,7 +8,7 @@ class Repository {
       if (err) {
         console.log(err)
       } else {
-        callback(data)
+        callback(JSON.parse(data))
       }
     })
   }
@@ -23,7 +23,6 @@ class Repository {
         let taskArray = JSON.parse(data)
         console.log('### task:', task)
         console.log('### task type:', typeof task)
-        task = JSON.parse(task)
         if (taskArray.length === 0) {
           task._id = 1
         } else {

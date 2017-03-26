@@ -9,14 +9,14 @@ var server = http.createServer((req, res) => {
   if (req.url === '/') {
     serveStatic('/index.html', res)
   } else if (req.method === 'GET' && req.url === '/tasks') {
-    repo.findTasks((data) => {
-      res.end(data)
+    repo.findTasks(data => {
+      res.end(JSON.stringify(data))
     })
   } else if (req.method === 'POST' && req.url === '/tasks') {
     req.setEncoding('utf8')
     req.on('data', (data) => {
       console.log('data:', data)
-      repo.addTask(data)
+      repo.addTask(JSON.parse(data))
       res.end(data)
     })
   } else if (req.method === 'DELETE' && req.url === '/tasks') {
