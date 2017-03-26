@@ -46,59 +46,59 @@ describe('Repository', function () {
     })
   })
 
-  describe('#addTask', function () {
-    it('should add a task', function (done) {
-      repo.addTask({
-        title: 'Test',
-        status: 'Doing'
-      }, () => {
-        repo.findTasks((data) => {
-          console.log('- after addTask:', data)
-          expect(data).lengthOf(5)
-          expect(data[4].title).to.equal('Test')
-          expect(data[4].status).to.equal('Doing')
-          expect(data[4]).to.have.property('_id')
-          done()
-        })
-      })
-    })
-  })
-
-  describe('#deleteTask', function () {
-    it('should delete a task', function (done) {
-      repo.deleteTask(5, () => {
-        repo.findTasks((data) => {
-          console.log('- after deleteTask:', data)
-          expect(data).lengthOf(4)
-          expect(data).not.to.include(5)
-          done()
-        })
-      })
-    })
-  })
-
-  describe('#deleteSelectedTasks', function () {
-    it('should delete all selected tasks', function (done) {
-      repo.deleteSelectedTasks([1, 2], () => {
-        repo.findTasks((data) => {
-          console.log('- after deleteSelectedTasks:')
-          expect(data).lengthOf(2)
-          expect(data).not.to.include(1).not.to.include(2)
-          done()
-        })
-      })
-    })
-  })
-
-  describe('#deleteAllTasks', function () {
-    it('should delete all tasks', function (done) {
-      repo.deleteAllTasks(() => {
-        repo.findTasks((data) => {
-          console.log('- after deleteAllTasks:')
-          expect(data).lengthOf(0)
-          done()
-        })
-      })
-    })
-  })
+  // describe('#addTask', function () {
+  //   it('should add a task', function (done) {
+  //     repo.addTask({
+  //       title: 'Test',
+  //       status: 'Doing'
+  //     }, () => {
+  //       repo.findTasks((data) => {
+  //         console.log('- after addTask:', data)
+  //         expect(data).lengthOf(5)
+  //         expect(data[4].title).to.equal('Test')
+  //         expect(data[4].status).to.equal('Doing')
+  //         expect(data[4]).to.have.property('_id')
+  //         done()
+  //       })
+  //     })
+  //   })
+  // })
+  //
+  // describe('#deleteTask', function () {
+  //   it('should delete a task', function (done) {
+  //     repo.deleteTask(5, () => {
+  //       repo.findTasks((data) => {
+  //         console.log('- after deleteTask:', data)
+  //         expect(data).lengthOf(4)
+  //         expect(data).not.to.include(5)
+  //         done()
+  //       })
+  //     })
+  //   })
+  // })
+  //
+  // describe('#deleteSelectedTasks', function () {
+  //   it('should delete all selected tasks', function (done) {
+  //     repo.deleteSelectedTasks([1, 2], () => {
+  //       repo.findTasks((data) => {
+  //         console.log('- after deleteSelectedTasks:')
+  //         expect(data).lengthOf(2)
+  //         expect(data).not.to.include(1).not.to.include(2)
+  //         done()
+  //       })
+  //     })
+  //   })
+  // })
+  //
+  // describe('#deleteAllTasks', function () {
+  //   it('should delete all tasks', function (done) {
+  //     repo.deleteAllTasks(() => {
+  //       repo.findTasks((data) => {
+  //         console.log('- after deleteAllTasks:')
+  //         expect(data).lengthOf(0)
+  //         done()
+  //       })
+  //     })
+  //   })
+  // })
 })
