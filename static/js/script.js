@@ -15,10 +15,10 @@ function populate () {
       $(".task-form").trigger("reset");
       for (let i = 0; i < tasks.length; i++) {
         let $liTask = $('<li>').addClass('list-group-item')
-        let $checkbox = $('<input>').attr('type', 'checkbox').attr('name', 'checkRemove').attr('id', tasks[i]).css('align', 'left')
+        let $checkbox = $('<input>').attr('type', 'checkbox').attr('name', 'checkRemove').attr('id', tasks[i]._id).css('align', 'left')
         let $btnTrash = $('<button>').attr('id', tasks[i]).click(removeTask)
         $btnTrash.html('<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>')
-        $liTask.append($checkbox).append(tasks[i]).append($btnTrash)
+        $liTask.append($checkbox).append(tasks[i].title).append($btnTrash)
         $tasks.append($liTask)
       }
     })
@@ -26,7 +26,10 @@ function populate () {
 
 function addEventListenersToAdd () {
   $('#btnAdd').click(() => {
-    let inAdd = $('#inAdd').val()
+    let inAdd = {
+        title: $('#inAdd').val(),
+        status: 'ToDo'
+    }
     let btnValidity = checkValidityButtons(inAdd, 'a')
     if (btnValidity === true) {
       $.get('http://localhost:3000/tasks')
@@ -35,8 +38,12 @@ function addEventListenersToAdd () {
           let tasks = JSON.parse(data)
           console.log(data)
           if (tasks.indexOf(inAdd) === -1) {
-            $.post('http://localhost:3000/tasks', inAdd)
-              .done(data => {
+            $.ajax({
+              url: 'http://localhost:3000/tasks',
+              method: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify(inAdd)
+            }).done(data => {
                 populate()
               })
             } else {

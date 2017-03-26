@@ -8,7 +8,7 @@ class Repository {
       if (err) {
         console.log(err)
       } else {
-        callback(JSON.parse(data.toString()))
+        callback(JSON.parse(data))
       }
     })
   }
@@ -21,7 +21,13 @@ class Repository {
         console.log('error reading')
       } else {
         let taskArray = JSON.parse(data)
-        task._id = taskArray[taskArray.length - 1]._id + 1
+        console.log('### task:', task)
+        console.log('### task type:', typeof task)
+        if (taskArray.length === 0) {
+          task._id = 1
+        } else {
+          task._id = taskArray[taskArray.length - 1]._id + 1
+        }
         taskArray.push(task)
         console.log(taskArray)
         fs.writeFile(path.join(__dirname, 'tasks.dat'), JSON.stringify(taskArray), (err) => {

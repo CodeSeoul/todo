@@ -16,7 +16,7 @@ describe('Repository', function () {
       {
         _id: 2,
         title: 'Sleep',
-        status: 'Todo'
+        status: 'ToDo'
       },
       {
         _id: 3,
@@ -52,7 +52,7 @@ describe('Repository', function () {
         title: 'Test',
         status: 'Doing'
       }, () => {
-        repo.findTasks((data) => {
+        repo.findTasks(data => {
           console.log('- after addTask:', data)
           expect(data).lengthOf(5)
           expect(data[4].title).to.equal('Test')
