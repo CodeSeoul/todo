@@ -22,7 +22,7 @@ var server = http.createServer((req, res) => {
   } else if (req.method === 'DELETE' && req.url === '/tasks') {
     req.setEncoding('utf8')
     req.on('data', (arr) => {
-      if (arr == 'ALL') {
+      if (arr === 'ALL') {
         console.log('deleteAllData')
         repo.deleteAllTasks(_ => {
           res.end()

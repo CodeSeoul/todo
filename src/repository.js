@@ -50,7 +50,7 @@ class Repository {
       } else {
         let taskArray = JSON.parse(data)
         taskArray = taskArray.filter((task) => {
-          console.log(task);
+          console.log(task)
           return task._id !== id
         })
         console.log('task after ', taskArray)
@@ -76,14 +76,14 @@ class Repository {
         // taskArray = taskArray.filter(task => {
         //   return arr.indexOf(task._id) === parseInt(task._id)
         // })
-        for(let i=0;i<taskArray.length;i++){
-          for(let j=0; j<arr.length;j++){
-            if(taskArray[i]._id===parseInt(arr[j])){
-              taskArray.splice(i,1)
+        for (let i = 0; i < taskArray.length; i++) {
+          for (let j = 0; j < arr.length; j++) {
+            if (taskArray[i]._id === parseInt(arr[j])) {
+              taskArray.splice(i, 1)
             }
           }
         }
-        //not pretty but gets the job done
+        // not pretty but gets the job done
         fs.writeFile(path.join(__dirname, 'tasks.dat'), JSON.stringify(taskArray), (err) => {
           if (err) {
             console.log('error writing')
