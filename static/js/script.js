@@ -60,8 +60,10 @@ function addEventListenersToRemove () {
   $('#btnRemove').click(function () {
     let checkedItems = $('input[type="checkbox"]:checkbox:checked')
     let arr = []
+  //  console.log("remove clicked, checked items are: ");
     for (let i = 0; i < checkedItems.length; i++) {
       arr.push(checkedItems[i].id)
+      //console.log(checkedItems[i].id)
     }
     $.ajax({
       url: 'http://localhost:3000/tasks',
