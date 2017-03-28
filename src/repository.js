@@ -34,7 +34,7 @@ class Repository {
           if (err) {
             console.log('error writing')
           } else {
-            console.log('successfully written')
+            console.log('successfully written from addTask')
             if (callback) callback()
           }
         })
@@ -50,6 +50,7 @@ class Repository {
       } else {
         let taskArray = JSON.parse(data)
         taskArray = taskArray.filter((task) => {
+          console.log(task);
           return task._id !== id
         })
         console.log('task after ', taskArray)
@@ -57,7 +58,7 @@ class Repository {
           if (err) {
             console.log('error writing')
           } else {
-            console.log('successfully written')
+            console.log('successfully written from deleteTask')
             if (callback) callback()
           }
         })
@@ -72,19 +73,22 @@ class Repository {
         console.log('error reading')
       } else {
         let taskArray = JSON.parse(data)
-        console.log('Task before ', taskArray)
-
-        taskArray = taskArray.filter(task => {
-          return arr.indexOf(task._id) === -1
-        })
-
-        console.log('task after ', taskArray)
-
+        // taskArray = taskArray.filter(task => {
+        //   return arr.indexOf(task._id) === parseInt(task._id)
+        // })
+        for(let i=0;i<taskArray.length;i++){
+          for(let j=0; j<arr.length;j++){
+            if(taskArray[i]._id===parseInt(arr[j])){
+              taskArray.splice(i,1)
+            }
+          }
+        }
+        //not pretty but gets the job done
         fs.writeFile(path.join(__dirname, 'tasks.dat'), JSON.stringify(taskArray), (err) => {
           if (err) {
             console.log('error writing')
           } else {
-            console.log('successfully written')
+            console.log('successfully written from deleteSelectedTasks')
             if (callback) callback()
           }
         })
@@ -98,11 +102,12 @@ class Repository {
       if (err) {
         console.log('error reading')
       } else {
-        fs.writeFile(path.join(__dirname, 'tasks.dat'), JSON.stringify([]), (err) => {
+        let contents = ''
+        fs.writeFile(path.join(__dirname, 'tasks.dat'), contents, (err) => {
           if (err) {
             console.log('error writing')
           } else {
-            console.log('successfully written')
+            console.log('successfully written from deleteAllTasks')
             if (callback) callback()
           }
         })
