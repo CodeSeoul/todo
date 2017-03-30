@@ -7,11 +7,11 @@ class FileAccessor {
   }
 
   /**
-   * covert data to string and then save to file
+   * covert object to string and then save it to the file
    */
   saveObjToFile (obj, callback) {
-    let data = JSON.stringify(obj)
-    fs.writeFile(this.filePath, data, 'utf8', (err) => {
+    let string = JSON.stringify(obj)
+    fs.writeFile(this.filePath, string, 'utf8', (err) => {
       if (err) {
         return console.error('Failed to save.', err)
       }
@@ -20,14 +20,14 @@ class FileAccessor {
   }
 
   /**
-   * load string from file and then convert to object
+   * load string from file and then convert it to an object
    */
   loadObjFromFile (callback) {
-    fs.readFile(this.filePath, 'utf8', (err, data) => {
+    fs.readFile(this.filePath, 'utf8', (err, string) => {
       if (err) {
         return console.error('Failed to load.', err)
       }
-      let obj = JSON.parse(data)
+      let obj = JSON.parse(string)
       callback(obj)
     })
   }
