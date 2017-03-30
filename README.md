@@ -6,7 +6,7 @@
 
 ## Screenshot
 
-![Screenshot](Screenshot.png)
+![screenshot](screenshot.png)
 
 ## How to run
 
