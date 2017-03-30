@@ -16,8 +16,9 @@ var server = http.createServer((req, res) => {
     req.setEncoding('utf8')
     req.on('data', (data) => {
       console.log('data:', data)
-      repo.addTask(JSON.parse(data))
-      res.end(data)
+      repo.addTask(JSON.parse(data), _ => {
+        res.end(data)
+      })
     })
   } else if (req.method === 'DELETE' && req.url === '/tasks') {
     req.setEncoding('utf8')

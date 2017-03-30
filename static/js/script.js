@@ -14,10 +14,11 @@ function populate () {
       $('.task-count').empty().hide().append(tasks.length).fadeIn(600)
       $(".task-form").trigger("reset");
       for (let i = 0; i < tasks.length; i++) {
+        console.log(tasks[i]._id)
         let $liTask = $('<li>').addClass('list-group-item')
         let $checkbox = $('<input>').attr('type', 'checkbox').attr('name', 'checkRemove').attr('id', tasks[i]._id).css('align', 'left')
-        let $btnTrash = $('<button>').attr('id', tasks[i]).click(removeTask)
-        $btnTrash.html('<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>')
+        let $btnTrash = $('<button>').attr('id', tasks[i]._id).text('X').click(removeTask)
+        // $btnTrash.html('<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>')
         $liTask.append($checkbox).append(tasks[i].title).append($btnTrash)
         $tasks.append($liTask)
       }
@@ -61,7 +62,7 @@ function addEventListenersToRemove () {
     let checkedItems = $('input[type="checkbox"]:checkbox:checked')
     let arr = []
     for (let i = 0; i < checkedItems.length; i++) {
-      arr.push(checkedItems[i].id)
+      arr.push(parseInt(checkedItems[i].id))
     }
     $.ajax({
       url: 'http://localhost:3000/tasks',
@@ -90,10 +91,12 @@ function addEventListenersToTrash () {
 function removeTask (event) {
   let id = event.target.id
   console.log('id:', id)
+  console.log("###", JSON.stringify([id]))
   $.ajax({
     url: 'http://localhost:3000/tasks',
     method: 'DELETE',
-    data: JSON.stringify([id])
+    contentType: 'application/json',
+    data: JSON.stringify([parseInt(id)])
   }).done(data => {
     populate()
   })
