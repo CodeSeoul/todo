@@ -80,7 +80,7 @@ function addEventListenersToTrash () {
       url: 'http://localhost:3000/tasks',
       method: 'DELETE',
       contentType: 'application/json',
-      data: '"ALL"'
+      data: 'ALL'
     }).done(data => {
       populate()
     })
