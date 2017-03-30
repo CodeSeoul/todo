@@ -42,7 +42,7 @@ class Repository {
         console.log('# indexOf:', arr.indexOf(task._id))
         return arr.indexOf(task._id) === -1
       })
-      console.log("### task:", tasks)
+      console.log('### task:', tasks)
       fileAccessor.saveObjToFile(tasks, _ => {
         if (callback) callback()
       })
