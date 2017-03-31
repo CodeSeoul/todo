@@ -24,7 +24,7 @@ class Repository {
     console.log('deleteTask')
     fileAccessor.loadObjFromFile(tasks => {
       tasks = tasks.filter((task) => {
-        return task._id !== id
+        return String(task._id) !== String(id)
       })
       fileAccessor.saveObjToFile(tasks, _ => {
         if (callback) callback()
@@ -34,15 +34,11 @@ class Repository {
 
   deleteSelectedTasks (arr, callback) {
     console.log('deleteSelectedTasks')
-    console.log('### arr:', arr)
     fileAccessor.loadObjFromFile(tasks => {
+      arr = arr.map(id => String(id))
       tasks = tasks.filter((task) => {
-        console.log('- arr :', arr)
-        console.log('- task._id :', task._id)
-        console.log('# indexOf:', arr.indexOf(task._id))
-        return arr.indexOf(task._id) === -1
+        return arr.indexOf(String(task._id)) === -1
       })
-      console.log('### task:', tasks)
       fileAccessor.saveObjToFile(tasks, _ => {
         if (callback) callback()
       })

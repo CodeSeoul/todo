@@ -8,7 +8,7 @@
       "$"
     ],
     "ignore": [
-      "static/js/script.js"
+      "static/js/**"
     ]
   },
   "scripts": {
