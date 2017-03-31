@@ -13,26 +13,28 @@
   </head>
   <body>
     <div class="container-fluid text-center">
-    <h1>Things to do:<span class="task-count"></span></h1>
-  </div>
-  <div class="container-fluid text-center">
-    <ul id="taskList" class="list-group"></ul>
-    <form class="task-form" action="index.html" method="post">
-      <input class="form-control" id="inAdd" type="text"
-      value="" placeholder="Add some tasks..."/>
-      <div class="btn-group">
-      <button class="btn" id="btnAdd" type="button"
-      name="button"><span class="glyphicon glyphicon-plus-sign"
-      aria-hidden="true"></span> Add a Task</button>
-      <button class="btn" id="btnRemove" type="button"
-      name="button"><span class="glyphicon glyphicon-minus-sign"
-      aria-hidden="true"></span> Remove Task</button>
-      <button class="btn" id="btnClear" type="button"
-      name="button"><span class="glyphicon glyphicon-remove-sign"
-      aria-hidden="true"></span> Clear All Tasks</button>
-      </div>
-    </form>
+      <h1>Things to do:<span class="task-count"></span></h1>
     </div>
+    <div class="main container-fluid">
+      <ul id="taskList" class="list-group"></ul>
+      <form class="task-form" action="index.html" method="post">
+        <input class="form-control" id="inAdd" type="text" value="" placeholder="Add some tasks..."/>
+        <div class="btn-group">
+          <button class="btn" id="btnAdd" type="button" name="button">
+            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+            Add a Task
+          </button>
+          <button class="btn" id="btnRemove" type="button" name="button">
+            <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
+            Remove Task
+          </button>
+          <button class="btn" id="btnClear" type="button" name="button">
+            <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+            Clear All Tasks
+          </button>
+        </div>
+      </form>
+      </div>
   </body>
 
 </html>
