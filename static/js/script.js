@@ -9,7 +9,9 @@ function populate () {
   let $tasks = $('#taskList')
   $.get('http://localhost:3000/tasks')
     .done(data => {
-      let tasks = JSON.parse(data)
+      let tasks = JSON.parse(data).filter(function(value) {
+        return value.status !== 'Archived'
+      })
       $tasks.html('')
       $('.task-count').empty().hide().append(tasks.length).fadeIn(600)
       $(".task-form").trigger("reset");
@@ -20,8 +22,8 @@ function populate () {
         let $checkbox = $('<input>').attr('type', 'checkbox').attr('name', 'checkRemove').attr('id', tasks[i]._id).css('align', 'left')
         let $btnTrash = $('<button>').attr('id', tasks[i]._id).text('X').click(removeTask)
         // $btnTrash.html('<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>')
-        $liTask.append($checkbox).append(tasks[i].title).append($btnTrash)
-        $tasks.append($liTask)
+          $liTask.append($checkbox).append(tasks[i].title).append($btnTrash)
+          $tasks.append($liTask)
       }
     })
 }
