@@ -13,6 +13,7 @@ function populate () {
       $tasks.html('')
       $('.task-count').empty().hide().append(tasks.length).fadeIn(600)
       $(".task-form").trigger("reset");
+      $('#inAdd').focus();
       for (let i = 0; i < tasks.length; i++) {
         console.log(tasks[i]._id)
         let $liTask = $('<li>').addClass('list-group-item')
@@ -26,34 +27,43 @@ function populate () {
 }
 
 function addEventListenersToAdd () {
+  $('#inAdd').keypress(function(event){
+    if(event.which === 13) {
+      let inAdd = {
+        title: $('#inAdd').val(),
+        status: 'ToDo',
+      }
+      validateTodo(inAdd) === true ? postNewTodo(inAdd) : window.alert(validateTodo(inAdd))
+    }
+  })
+
   $('#btnAdd').click(() => {
     let inAdd = {
         title: $('#inAdd').val(),
         status: 'ToDo'
     }
-    let btnValidity = checkValidityButtons(inAdd, 'a')
-    if (btnValidity === true) {
-      $.get('http://localhost:3000/tasks')
-        .done(data => {
+    validateTodo(inAdd) === true ? postNewTodo(inAdd) : window.alert(validateTodo(inAdd))
+  })
+}
 
-          let tasks = JSON.parse(data)
-          console.log(data)
-          if (tasks.indexOf(inAdd) === -1) {
-            $.ajax({
-              url: 'http://localhost:3000/tasks',
-              method: 'POST',
-              contentType: 'application/json',
-              data: JSON.stringify(inAdd)
-            }).done(data => {
-                populate()
-              })
-            } else {
-              window.alert('that todo is already on the list')
-            }
+function postNewTodo(todoObj) {
+  $.get('http://localhost:3000/tasks')
+    .done(data => {
+
+    let tasks = JSON.parse(data)
+    console.log(data)
+    if (tasks.indexOf(todoObj) === -1) {
+      $.ajax({
+        url: 'http://localhost:3000/tasks',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(todoObj)
+      }).done(data => {
+          populate()
         })
-    } else {
-      window.alert(btnValidity)
-    }
+      } else {
+        window.alert('that todo is already on the list')
+      }
   })
 }
 
@@ -102,7 +112,7 @@ function removeTask (event) {
   })
 }
 
-function checkValidityButtons ($inAdd, op) { // @: $inAdd: texture input, op: operation code
+function validateTodo($inAdd) {
   if ($inAdd.title.length < 1) return "Todo shouldn't be blank"
   if ($inAdd.title.length > 70) return 'Todo should be less than 70 characters, yours is ' + $inAdd.title.length + '.'
 
