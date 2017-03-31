@@ -52,18 +52,15 @@ function postNewTodo(todoObj) {
 
     let tasks = JSON.parse(data)
     console.log(data)
-    if (tasks.indexOf(todoObj) === -1) {
-      $.ajax({
-        url: 'http://localhost:3000/tasks',
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(todoObj)
-      }).done(data => {
-          populate()
-        })
-      } else {
-        window.alert('that todo is already on the list')
-      }
+
+    $.ajax({
+      url: 'http://localhost:3000/tasks',
+      method: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(todoObj)
+    }).done(data => {
+      populate()
+    })
   })
 }
 
@@ -115,6 +112,7 @@ function removeTask (event) {
 function validateTodo($inAdd) {
   if ($inAdd.title.length < 1) return "Todo shouldn't be blank"
   if ($inAdd.title.length > 70) return 'Todo should be less than 70 characters, yours is ' + $inAdd.title.length + '.'
+  // needs to populate the form value if the length is too long so users don't have to retype the todo when failing validation
 
   return true
 }
