@@ -69,15 +69,13 @@ describe('Repository', function () {
   describe('#deleteTask', function () {
     it('should delete a task', function (done) {
       repo.findTasks((data) => {
-        console.log('- after findTask:', data)
-
         repo.deleteTask(data[4]._id, (result) => {
-          console.log('- after deleteTask:', result)
-          expect(data).lengthOf(4)
-          expect(data).not.to.include(5)
-          done()
+          repo.findTasks((data) => {
+            console.log('- after delte => findTask:', data)
+            expect(data).have.length.at.most(4)
+            done()
+          })
         })
-        done()
       })
     })
   })
