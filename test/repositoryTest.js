@@ -1,7 +1,7 @@
 const Repository = require('../src/repository')
 const expect = require('chai').expect
-const fs = require('fs')
-const path = require('path')
+const MongoClient = require('mongodb').MongoClient
+const url = 'mongodb://localhost:27017/test'
 
 let repo
 describe('Repository', function () {
@@ -9,31 +9,39 @@ describe('Repository', function () {
     repo = new Repository()
     let data = [
       {
-        _id: 1,
         title: 'Eat',
         status: 'Done'
       },
       {
-        _id: 2,
         title: 'Sleep',
         status: 'ToDo'
       },
       {
-        _id: 3,
         title: 'Play',
         status: 'Doing'
       },
       {
-        _id: 4,
         title: 'Play',
         status: 'Archived'
       }
     ]
-    fs.writeFile(path.join(__dirname, '../src/tasks.dat'), JSON.stringify(data), (err) => {
-      if (err) console.log('- failed to initialize data:' + err)
-      console.log('- Initialized data')
-      done()
+
+    // Use connect method to connect to the server
+    MongoClient.connect(url, (err, db) => {
+      expect(err).to.be.equal(null)
+      console.log('Connected successfully to server')
+      db.collection('tasks').drop((err, result) => {
+        expect(err).to.be.equal(null)
+        console.log('Data cleaned')
+        db.collection('tasks').insertMany(data, (err, result) => {
+          expect(err).to.be.equal(null)
+          console.log('data Initialized')
+          expect(result.result.n).to.be.equal(4)
+          db.close()
+        })
+      })
     })
+    done()
   })
 
   describe('#findTask', function () {
@@ -48,57 +56,39 @@ describe('Repository', function () {
 
   describe('#addTask', function () {
     it('should add a task', function (done) {
-      repo.addTask({
-        title: 'Test',
-        status: 'Doing'
-      }, () => {
-        repo.findTasks(data => {
-          console.log('- after addTask:', data)
-          expect(data).lengthOf(5)
-          expect(data[4].title).to.equal('Test')
-          expect(data[4].status).to.equal('Doing')
-          expect(data[4]).to.have.property('_id')
-          done()
-        })
-      })
+      done()
     })
   })
 
   describe('#deleteTask', function () {
     it('should delete a task', function (done) {
-      repo.deleteTask(5, () => {
-        repo.findTasks((data) => {
-          console.log('- after deleteTask:', data)
-          expect(data).lengthOf(4)
-          expect(data).not.to.include(5)
-          done()
-        })
-      })
+      done()
     })
   })
 
   describe('#deleteSelectedTasks', function () {
     it('should delete all selected tasks', function (done) {
-      repo.deleteSelectedTasks([1, 2], () => {
-        repo.findTasks((data) => {
-          console.log('- after deleteSelectedTasks:')
-          expect(data).lengthOf(2)
-          expect(data).not.to.include(1).not.to.include(2)
-          done()
-        })
-      })
+      done()
     })
   })
 
   describe('#deleteAllTasks', function () {
     it('should delete all tasks', function (done) {
-      repo.deleteAllTasks(() => {
-        repo.findTasks((data) => {
-          console.log('- after deleteAllTasks:')
-          expect(data).lengthOf(0)
-          done()
-        })
-      })
+      done()
     })
   })
+
+  // after(function (done) {
+  //   MongoClient.connect(url, (err, db) => {
+  //     expect(err).to.be.equal(null)
+  //     console.log('Cleaning up')
+  //     db.collection('tasks').drop((err, result) => {
+  //       expect(err).to.be.equal(null)
+  //       console.log("Data cleaned");
+  //       console.log(result)
+  //       db.close()
+  //     })
+  //   })
+  //   done()
+  // })
 })
