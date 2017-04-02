@@ -48,7 +48,7 @@ describe('Repository', function () {
     it('should find all the tasks', function (done) {
       repo.findTasks((data) => {
         console.log('- after findTask:', data)
-        expect(data).have.length.at.least(2)
+        expect(data).have.length.at.least(4)
         done()
       })
     })
@@ -56,7 +56,13 @@ describe('Repository', function () {
 
   describe('#addTask', function () {
     it('should add a task', function (done) {
-      done()
+      repo.addTask(({title: 'Go to the mart', status: 'ToDo'}), (data) => {
+        console.log('- after addTask:', data.status)
+        expect(data.title).to.equal('Go to the mart')
+        expect(data.status).to.equal('ToDo')
+        expect(data).to.have.property('_id')
+        done()
+      })
     })
   })
 
