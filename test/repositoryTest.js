@@ -3,7 +3,6 @@ const expect = require('chai').expect
 const MongoClient = require('mongodb').MongoClient
 const url = 'mongodb://localhost:27017/test'
 
-
 let repo
 describe('Repository', function () {
   before(function (done) {
@@ -33,10 +32,10 @@ describe('Repository', function () {
       console.log('Connected successfully to server')
       db.collection('tasks').drop((err, result) => {
         expect(err).to.be.equal(null)
-        console.log("Data cleaned");
+        console.log('Data cleaned')
         db.collection('tasks').insertMany(data, (err, result) => {
           expect(err).to.be.equal(null)
-          console.log("data Initialized")
+          console.log('data Initialized')
           expect(result.result.n).to.be.equal(4)
           db.close()
         })
