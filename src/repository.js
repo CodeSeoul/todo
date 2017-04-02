@@ -1,55 +1,37 @@
-const FileAccessor = require('./FileAccessor')
-const fileAccessor = new FileAccessor('tasks.dat')
+const MongoClient = require('mongodb').MongoClient
+const url = 'mongodb://localhost:27017/test'
 
 class Repository {
   findTasks (callback) {
-    console.log('findTasks')
-    fileAccessor.loadObjFromFile(tasks => {
-      callback(tasks)
+    MongoClient.connect(url, (err, db) => {
+      if (err) return console.error('Failed to connect.', err)
+      db.collection('tasks').find({}).toArray((err, tasks) => {
+        if (err) return console.error('Failed to find tasks.', err)
+        callback(tasks)
+      })
     })
   }
 
   addTask (task, callback) {
-    console.log('addTask')
-    fileAccessor.loadObjFromFile(tasks => {
-      task._id = tasks.length === 0 ? 1 : tasks[tasks.length - 1]._id + 1
-      tasks.push(task)
-      fileAccessor.saveObjToFile(tasks, _ => {
-        if (callback) callback()
+    MongoClient.connect(url, (err, db) => {
+      if (err) return console.error('Failed to connect', err)
+      db.collection('tasks').insertOne(task, (err, result) => {
+        if (err) return console.error('Failed to add task.', err)
+        callback(task)
       })
     })
   }
 
   deleteTask (id, callback) {
-    console.log('deleteTask')
-    fileAccessor.loadObjFromFile(tasks => {
-      tasks = tasks.filter((task) => {
-        return String(task._id) !== String(id)
-      })
-      fileAccessor.saveObjToFile(tasks, _ => {
-        if (callback) callback()
-      })
-    })
+
   }
 
   deleteSelectedTasks (arr, callback) {
-    console.log('deleteSelectedTasks')
-    fileAccessor.loadObjFromFile(tasks => {
-      arr = arr.map(id => String(id))
-      tasks = tasks.filter((task) => {
-        return arr.indexOf(String(task._id)) === -1
-      })
-      fileAccessor.saveObjToFile(tasks, _ => {
-        if (callback) callback()
-      })
-    })
+
   }
 
   deleteAllTasks (callback) {
-    console.log('deleteAllTasks')
-    fileAccessor.saveObjToFile([], _ => {
-      if (callback) callback()
-    })
+
   }
 }
 
