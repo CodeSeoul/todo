@@ -23,7 +23,13 @@ class Repository {
   }
 
   deleteTask (id, callback) {
-
+    MongoClient.connect(url, (err, db) => {
+      if (err) return console.error('Failed to connect', err)
+      db.collection('tasks').deleteOne({_id: id}, (err, result) => {
+        if (err) return console.error('Failed to add task.', err)
+        callback(result)
+      })
+    })
   }
 
   deleteSelectedTasks (arr, callback) {

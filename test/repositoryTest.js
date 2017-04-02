@@ -57,7 +57,7 @@ describe('Repository', function () {
   describe('#addTask', function () {
     it('should add a task', function (done) {
       repo.addTask(({title: 'Go to the mart', status: 'ToDo'}), (data) => {
-        console.log('- after addTask:', data.status)
+        console.log('- after addTask:', data)
         expect(data.title).to.equal('Go to the mart')
         expect(data.status).to.equal('ToDo')
         expect(data).to.have.property('_id')
@@ -68,7 +68,17 @@ describe('Repository', function () {
 
   describe('#deleteTask', function () {
     it('should delete a task', function (done) {
-      done()
+      repo.findTasks((data) => {
+        console.log('- after findTask:', data)
+
+        repo.deleteTask(data[4]._id, (result) => {
+          console.log('- after deleteTask:', result)
+          expect(data).lengthOf(4)
+          expect(data).not.to.include(5)
+          done()
+        })
+        done()
+      })
     })
   })
 
