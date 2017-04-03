@@ -1,4 +1,5 @@
 const MongoClient = require('mongodb').MongoClient
+const ObjectID = require('mongodb').ObjectID
 const url = 'mongodb://localhost:27017/test'
 
 class Repository {
@@ -25,7 +26,7 @@ class Repository {
   deleteTask (id, callback) {
     MongoClient.connect(url, (err, db) => {
       if (err) return console.error('Failed to connect', err)
-      db.collection('tasks').deleteOne({_id: id}, (err, result) => {
+      db.collection('tasks').deleteOne({_id: new ObjectID(id)}, (err, result) => {
         if (err) return console.error('Failed to add task.', err)
         callback(result)
       })

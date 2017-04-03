@@ -38,10 +38,10 @@ describe('Repository', function () {
           console.log('data Initialized')
           expect(result.result.n).to.be.equal(4)
           db.close()
+          done()
         })
       })
     })
-    done()
   })
 
   describe('#findTask', function () {
