@@ -4,6 +4,7 @@ const MongoClient = require('mongodb').MongoClient
 const url = 'mongodb://localhost:27017/test'
 
 let repo
+let testId
 describe('Repository', function () {
   before(function (done) {
     repo = new Repository()
@@ -42,9 +43,9 @@ describe('Repository', function () {
 
   describe('#findTask', function () {
     it('should find all the tasks', function (done) {
-      repo.findTasks((data) => {
-        console.log('- after findTask:', data)
-        expect(data).have.length.at.least(4)
+      repo.findTasks(tasks => {
+        console.log('- after findTask:', tasks)
+        expect(tasks).to.have.lengthOf(4)
         done()
       })
     })
@@ -52,25 +53,26 @@ describe('Repository', function () {
 
   describe('#addTask', function () {
     it('should add a task', function (done) {
-      repo.addTask(({title: 'Go to the mart', status: 'ToDo'}), (data) => {
-        console.log('- after addTask:', data)
-        expect(data.title).to.equal('Go to the mart')
-        expect(data.status).to.equal('ToDo')
-        expect(data).to.have.property('_id')
-        done()
+      repo.addTask(({title: 'Go to the mart', status: 'ToDo'}), (id) => {
+        console.log('- _id:', id)
+        expect(id).to.not.be.equal(null)
+        testId = id
+        repo.findTasks(tasks => {
+          console.log('- after addTask => findTask:', tasks)
+          expect(tasks).to.have.lengthOf(5)
+          done()
+        })
       })
     })
   })
 
   describe('#deleteTask', function () {
     it('should delete a task', function (done) {
-      repo.findTasks((data) => {
-        repo.deleteTask(data[4]._id, (result) => {
-          repo.findTasks((data) => {
-            console.log('- after delte => findTask:', data)
-            expect(data).have.length.at.most(4)
-            done()
-          })
+      repo.deleteTask(testId, _ => {
+        repo.findTasks(tasks => {
+          console.log('- after deleteTask => findTask:', tasks)
+          expect(tasks).to.have.lengthOf(4)
+          done()
         })
       })
     })
