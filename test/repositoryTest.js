@@ -30,17 +30,12 @@ describe('Repository', function () {
     MongoClient.connect(url, (err, db) => {
       expect(err).to.be.equal(null)
       console.log('Connected successfully to server')
-      db.collection('tasks').drop((err, result) => {
-        console.error('Failed to connect', err)
-        // expect(err).to.be.equal(null)
-        console.log('Data cleaned')
-        db.collection('tasks').insertMany(data, (err, result) => {
-          expect(err).to.be.equal(null)
-          console.log('data Initialized')
-          expect(result.result.n).to.be.equal(4)
-          db.close()
-          done()
-        })
+      db.collection('tasks').insertMany(data, (err, result) => {
+        expect(err).to.be.equal(null)
+        console.log('data Initialized')
+        expect(result.result.n).to.be.equal(4)
+        db.close()
+        done()
       })
     })
   })
@@ -93,17 +88,17 @@ describe('Repository', function () {
     })
   })
 
-  // after(function (done) {
-  //   MongoClient.connect(url, (err, db) => {
-  //     expect(err).to.be.equal(null)
-  //     console.log('Cleaning up')
-  //     db.collection('tasks').drop((err, result) => {
-  //       expect(err).to.be.equal(null)
-  //       console.log("Data cleaned");
-  //       console.log(result)
-  //       db.close()
-  //     })
-  //   })
-  //   done()
-  // })
+  after(function (done) {
+    MongoClient.connect(url, (err, db) => {
+      expect(err).to.be.equal(null)
+      console.log('Cleaning up')
+      db.collection('tasks').drop((err, result) => {
+        expect(err).to.be.equal(null)
+        console.log('Data cleaned')
+        console.log(result)
+        db.close()
+        done()
+      })
+    })
+  })
 })
