@@ -4,7 +4,7 @@ const fs = require('fs')
 const path = require('path')
 
 let repo
-describe('Repository', function () {
+describe('RepositoryFile', function () {
   before(function (done) {
     repo = new Repository()
     let data = [
