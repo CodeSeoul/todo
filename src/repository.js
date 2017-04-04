@@ -30,7 +30,7 @@ class Repository {
     MongoClient.connect(url, (err, db) => {
       if (err) return console.error('Failed to connect', err)
       db.collection('tasks').deleteOne({_id: new ObjectID(id)}, (err, result) => {
-        if (err) return console.error('Failed to add task.', err)
+        if (err) return console.error('Failed to delete task.', err)
         callback()
       })
     })
@@ -38,10 +38,24 @@ class Repository {
 
   deleteSelectedTasks (arr, callback) {
     console.log('deleteSelectedTasks')
+    MongoClient.connect(url, (err, db) => {
+      if (err) return console.error('Failed to connect', err)
+      db.collection('tasks').remove({_id: {$in: arr}}, (err, result) => {
+        if (err) return console.error('Failed delete selected tasks.', err)
+        callback()
+      })
+    })
   }
 
   deleteAllTasks (callback) {
     console.log('deleteAllTasks')
+    MongoClient.connect(url, (err, db) => {
+      if (err) return console.error('Failed to connect', err)
+      db.collection('tasks').remove({}, (err, result) => {
+        if (err) return console.error('Failed delete selected tasks.', err)
+        callback()
+      })
+    })
   }
 }
 
