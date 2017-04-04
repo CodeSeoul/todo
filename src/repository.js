@@ -38,6 +38,9 @@ class Repository {
 
   deleteSelectedTasks (arr, callback) {
     console.log('deleteSelectedTasks')
+    arr = arr.map(function (id) {
+      return new ObjectID(id)
+    })
     MongoClient.connect(url, (err, db) => {
       if (err) return console.error('Failed to connect', err)
       db.collection('tasks').remove({_id: {$in: arr}}, (err, result) => {
