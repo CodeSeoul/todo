@@ -4,6 +4,11 @@ const ajax = {
       callback(data)
     })
   },
+  updateExistingTask: function (idStatusArr, callback) {
+    this.callAjax('POST', '/tasks', idStatusArr, data => {
+      callback(data)
+    })
+  },
   findTasks: function (callback) {
     this.callAjax('GET', '/tasks', null, data => {
       callback(data)

@@ -25,6 +25,19 @@ class Repository {
     })
   }
 
+  updateExistingTask (idStatusArr, callback) {
+    console.log('updateExistingTask')
+    var id = idStatusArr[0]
+    var newStatus = idStatusArr[1]
+    MongoClient.connect(url, (err, db) => {
+      if (err) return console.error('Failed to connect', err)
+      db.collection('tasks').update({_id: new ObjectID(id)}, {$set: {'status': newStatus}}, (err, result) => {
+        if (err) return console.error('Failed to add task.', err)
+        callback()
+      })
+    })
+  }
+
   deleteTask (id, callback) {
     console.log('deleteTask')
     MongoClient.connect(url, (err, db) => {

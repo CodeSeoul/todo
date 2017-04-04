@@ -68,6 +68,21 @@ describe('Repository', function () {
     })
   })
 
+  describe('#updateExistingTask', function () {
+    it('should update an existing task', function (done) {
+      var idStatusArr = [testId, 'Done', 'changeStatus']
+      repo.updateExistingTask(idStatusArr, (id) => {
+        console.log('- _id:', id)
+        expect(id).to.not.be.equal(null)
+        repo.findTasks(tasks => {
+          console.log('- after addTask => findTask:', tasks)
+          expect(tasks[4].status).to.equal('Done')
+          done()
+        })
+      })
+    })
+  })
+
   describe('#deleteTask', function () {
     it('should delete a task', function (done) {
       repo.deleteTask(testId, _ => {

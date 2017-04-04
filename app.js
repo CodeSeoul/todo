@@ -15,10 +15,18 @@ var server = http.createServer((req, res) => {
   } else if (req.method === 'POST' && req.url === '/tasks') {
     req.setEncoding('utf8')
     req.on('data', (data) => {
-      console.log('data:', data)
-      repo.addTask(JSON.parse(data), _ => {
-        res.end(data)
-      })
+      console.log(data)
+      if (data.indexOf('changeStatus') > 1) {
+        console.log('deleteAllData')
+        repo.updateExistingTask(JSON.parse(data), _ => {
+          res.end(JSON.stringify(data))
+        })
+      } else {
+        console.log('data:', data)
+        repo.addTask(JSON.parse(data), _ => {
+          res.end(data)
+        })
+      }
     })
   } else if (req.method === 'DELETE' && req.url === '/tasks') {
     req.setEncoding('utf8')
