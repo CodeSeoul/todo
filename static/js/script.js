@@ -61,8 +61,15 @@ function updateView () {
       .map(task => {
         return `
           <li class="list-group-item">
+            <select name="select">
+              <option value="value1"selected>ToDo</option>
+              <option value="value2">Doing</option>
+              <option value="value3">Done</option>
+            </select>
+            <label>
             <input type="checkbox" name="checkRemove" id='${task._id}' />
             <b>${task.title}</b>
+            </label>
             <span class="pull-right">
               <button onclick="removeTask('${task._id}')">
                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
