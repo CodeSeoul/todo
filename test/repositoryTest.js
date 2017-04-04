@@ -94,7 +94,7 @@ describe('Repository', function () {
 
   describe('#deleteAllTasks', function () {
     it('should delete all tasks', function (done) {
-      repo.deleteAllTasks( _ => {
+      repo.deleteAllTasks(_ => {
         repo.findTasks(tasks => {
           console.log('- after deleteSelectedTasks => findTasks: ', tasks)
           expect(tasks).to.have.lengthOf(0)
