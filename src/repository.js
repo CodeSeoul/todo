@@ -40,6 +40,7 @@ class Repository {
 
   updateStartTime (id, callback) {
     console.log('updateStartTime')
+    console.log(id)
     MongoClient.connect(url, (err, db) => {
       if (err) return console.error('Failed to connect', err)
       db.collection('tasks').update({_id: new ObjectID(id)}, {$set: {'startDate': new Date()}}, (err, result) => {

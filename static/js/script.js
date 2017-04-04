@@ -3,7 +3,6 @@ $(document).ready(() => {
   $('#btnRemove').click(removeCheckedTasks)
   $('#btnClear').click(removeAllTasks)
   $('#btnAdd').click(postNewTodo)
-  $('#statusToDo').click()
   $('#inAdd').keypress(event => {
     if(event.which === 13) {
       event.preventDefault() // prvent blinking
@@ -28,6 +27,14 @@ function postNewTodo (event) {
 
 function updateExistingTask (id, value) {
   ajax.updateExistingTask([id, value, 'changeStatus'], data => {
+    updateView()
+  })
+}
+
+function updateStartTime (id) {
+  console.log('updateStartTime')
+  console.log(id)
+  ajax.updateStartTime(id, data => {
     updateView()
   })
 }
@@ -78,9 +85,9 @@ function updateView () {
             <b>${task.title}</b>
             </label>
             <span class="pull-right">
-            <span id="timeDate">${task.startDate.slice(0, 10)}</span>
-            <span id="timeHour">${task.startDate.slice(11, 16)}</span>
-            <button id="startTime">Start Time</button>
+            <span id="timeDate">${task.startDate ? task.startDate.slice(0, 10) : ''}</span>
+            <span id="timeHour">${task.startDate ? task.startDate.slice(11, 16) : ''}</span>
+            <button onclick="updateStartTime('${task._id}')">Start Time</button>
               <button onclick="removeTask('${task._id}')">
                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
               </button>
