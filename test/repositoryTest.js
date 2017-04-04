@@ -5,6 +5,7 @@ const url = 'mongodb://localhost:27017/test'
 
 let repo
 let testId
+let testIdArr
 describe('Repository', function () {
   before(function (done) {
     repo = new Repository()
@@ -45,6 +46,7 @@ describe('Repository', function () {
     it('should find all the tasks', function (done) {
       repo.findTasks(tasks => {
         console.log('- after findTask:', tasks)
+        testIdArr = [tasks[0]._id, tasks[1]._id]
         expect(tasks).to.have.lengthOf(4)
         done()
       })
@@ -80,13 +82,25 @@ describe('Repository', function () {
 
   describe('#deleteSelectedTasks', function () {
     it('should delete all selected tasks', function (done) {
-      done()
+      repo.deleteSelectedTasks(testIdArr, _ => {
+        repo.findTasks(tasks => {
+          console.log('- after deleteSelectedTasks => findTasks: ', tasks)
+          expect(tasks).to.have.lengthOf(2)
+          done()
+        })
+      })
     })
   })
 
   describe('#deleteAllTasks', function () {
     it('should delete all tasks', function (done) {
-      done()
+      repo.deleteAllTasks(_ => {
+        repo.findTasks(tasks => {
+          console.log('- after deleteSelectedTasks => findTasks: ', tasks)
+          expect(tasks).to.have.lengthOf(0)
+          done()
+        })
+      })
     })
   })
 
@@ -95,6 +109,7 @@ describe('Repository', function () {
       expect(err).to.be.equal(null)
       console.log('Cleaning up')
       db.collection('tasks').drop((err, result) => {
+        if (err) console.error('error :', err)
         expect(err).to.be.equal(null)
         console.log('Data cleaned')
         console.log(result)
