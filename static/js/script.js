@@ -3,6 +3,7 @@ $(document).ready(() => {
   $('#btnRemove').click(removeCheckedTasks)
   $('#btnClear').click(removeAllTasks)
   $('#btnAdd').click(postNewTodo)
+  $('#statusToDo').click()
   $('#inAdd').keypress(event => {
     if(event.which === 13) {
       event.preventDefault() // prvent blinking
@@ -21,6 +22,12 @@ function postNewTodo (event) {
     return window.alert(result.error)
   }
   ajax.createTask(task, data => {
+    updateView()
+  })
+}
+
+function updateExistingTask (id, value) {
+  ajax.updateExistingTask([id, value, 'changeStatus'], data => {
     updateView()
   })
 }
@@ -61,10 +68,10 @@ function updateView () {
       .map(task => {
         return `
           <li class="list-group-item">
-            <select name="select">
-              <option value="value1"selected>ToDo</option>
-              <option value="value2">Doing</option>
-              <option value="value3">Done</option>
+            <select name="select" id="selector" onchange="updateExistingTask('${task._id}', value)">
+              <option value="ToDo">ToDo</option>
+              <option value="Doing">Doing</option>
+              <option value="Done">Done</option>
             </select>
             <label>
             <input type="checkbox" name="checkRemove" id='${task._id}' />
