@@ -69,9 +69,9 @@ function updateView () {
         return `
           <li class="list-group-item">
             <select name="select" id="selector" onchange="updateExistingTask('${task._id}', value)">
-              <option value="ToDo">ToDo</option>
-              <option value="Doing">Doing</option>
-              <option value="Done">Done</option>
+              <option value="ToDo" ${task.status === 'ToDo' ? 'selected' : ''}>ToDo</option>
+              <option value="Doing" ${task.status === 'Doing' ? 'selected' : ''}>Doing</option>
+              <option value="Done" ${task.status === 'Done' ? 'selected' : ''}>Done</option>
             </select>
             <label>
             <input type="checkbox" name="checkRemove" id='${task._id}' />
