@@ -66,3 +66,12 @@ select {
 select:focus {
   outline: none;
 }
+
+#timeDate, #timeHour {
+  font-size: 20px;
+  padding-right: 12px;
+}
+
+button #startTime {
+
+}

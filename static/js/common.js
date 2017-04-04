@@ -9,6 +9,11 @@ const ajax = {
       callback(data)
     })
   },
+  updateStartTime: function (id, callback) {
+    this.callAjax('PUT', '/tasks', id, data => {
+      callback(data)
+    })
+  },
   findTasks: function (callback) {
     this.callAjax('GET', '/tasks', null, data => {
       callback(data)

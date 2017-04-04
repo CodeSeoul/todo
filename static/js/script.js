@@ -3,7 +3,6 @@ $(document).ready(() => {
   $('#btnRemove').click(removeCheckedTasks)
   $('#btnClear').click(removeAllTasks)
   $('#btnAdd').click(postNewTodo)
-  $('#statusToDo').click()
   $('#inAdd').keypress(event => {
     if(event.which === 13) {
       event.preventDefault() // prvent blinking
@@ -28,6 +27,14 @@ function postNewTodo (event) {
 
 function updateExistingTask (id, value) {
   ajax.updateExistingTask([id, value, 'changeStatus'], data => {
+    updateView()
+  })
+}
+
+function updateStartTime (id) {
+  console.log('updateStartTime')
+  console.log(id)
+  ajax.updateStartTime(id, data => {
     updateView()
   })
 }
@@ -69,15 +76,18 @@ function updateView () {
         return `
           <li class="list-group-item">
             <select name="select" id="selector" onchange="updateExistingTask('${task._id}', value)">
-              <option value="ToDo">ToDo</option>
-              <option value="Doing">Doing</option>
-              <option value="Done">Done</option>
+              <option value="ToDo" ${task.status === 'ToDo' ? 'selected' : ''}>ToDo</option>
+              <option value="Doing" ${task.status === 'Doing' ? 'selected' : ''}>Doing</option>
+              <option value="Done" ${task.status === 'Done' ? 'selected' : ''}>Done</option>
             </select>
             <label>
             <input type="checkbox" name="checkRemove" id='${task._id}' />
             <b>${task.title}</b>
             </label>
             <span class="pull-right">
+            <span id="timeDate">${task.startDate ? task.startDate.slice(0, 10) : ''}</span>
+            <span id="timeHour">${task.startDate ? task.startDate.slice(11, 16) : ''}</span>
+            <button onclick="updateStartTime('${task._id}')">Start Time</button>
               <button onclick="removeTask('${task._id}')">
                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
               </button>

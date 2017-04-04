@@ -83,6 +83,20 @@ describe('Repository', function () {
     })
   })
 
+  describe('#updateStartTime', function () {
+    it('should add a start time', function (done) {
+      repo.updateStartTime(testId, _ => {
+        console.log('- _id:', testId)
+        expect(testId).to.not.be.equal(null)
+        repo.findTasks(tasks => {
+          console.log('- after updateStartTime => findTask:', tasks)
+          expect(tasks[4].startTime).to.not.be.equal(null)
+          done()
+        })
+      })
+    })
+  })
+
   describe('#deleteTask', function () {
     it('should delete a task', function (done) {
       repo.deleteTask(testId, _ => {
