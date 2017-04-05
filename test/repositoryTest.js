@@ -8,7 +8,7 @@ let testId
 let testIdArr
 describe('Repository', function () {
   before(function (done) {
-    repo = new Repository()
+    repo = new Repository(url)
     let data = [
       {
         title: 'Eat',
