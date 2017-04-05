@@ -1,56 +1,15 @@
-var http = require('http')
-var fs = require('fs')
-var Repository = require('./src/repository')
+const http = require('http')
+const fs = require('fs')
 
-// TODO I think we should add a switch statement, starting to get long
-let repo = new Repository()
+const tasks = require('./routes/tasks')
 
-var server = http.createServer((req, res) => {
+const server = http.createServer((req, res) => {
+  req.setEncoding('utf8')
+
   if (req.url === '/') {
     serveStatic('/index.html', res)
-  } else if (req.method === 'GET' && req.url === '/tasks') {
-    repo.findTasks(data => {
-      res.end(JSON.stringify(data))
-    })
-  } else if (req.method === 'POST' && req.url === '/tasks') {
-    req.setEncoding('utf8')
-    req.on('data', (data) => {
-      console.log(data)
-      if (data.indexOf('changeStatus') > 1) {
-        console.log('deleteAllData')
-        repo.updateExistingTask(JSON.parse(data), _ => {
-          res.end(JSON.stringify(data))
-        })
-      } else {
-        console.log('data:', data)
-        repo.addTask(JSON.parse(data), _ => {
-          res.end(data)
-        })
-      }
-    })
-  } else if (req.method === 'PUT' && req.url === '/tasks') {
-    req.setEncoding('utf8')
-    req.on('data', (data) => {
-      console.log(data)
-      repo.updateStartTime(JSON.parse(data), _ => {
-        res.end(JSON.stringify(data))
-      })
-    })
-  } else if (req.method === 'DELETE' && req.url === '/tasks') {
-    req.setEncoding('utf8')
-    req.on('data', (arr) => {
-      if (arr.indexOf('ALL') > 1) {
-        console.log('deleteAllData')
-        repo.deleteAllTasks(_ => {
-          res.end('{}')
-        })
-      } else {
-        console.log('deleteData:', JSON.parse(arr))
-        repo.deleteSelectedTasks(JSON.parse(arr), _ => {
-          res.end('{}')
-        })
-      }
-    })
+  } else if (/\/tasks\/?(.*)/.test(req.url)) {
+    tasks.route(req, res)
   } else {
     serveStatic(req.url, res)
   }
