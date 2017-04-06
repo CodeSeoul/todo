@@ -1,4 +1,4 @@
-const Repository = require('../src/repository')
+const Repository = require('../src/Repository')
 const repo = new Repository()
 
 function route (req, res) {

@@ -1,4 +1,4 @@
-const Repository = require('../src/repository')
+const Repository = require('../src/Repository')
 const expect = require('chai').expect
 const MongoClient = require('mongodb').MongoClient
 const url = 'mongodb://localhost:27017/test'
