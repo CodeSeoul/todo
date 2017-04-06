@@ -28,26 +28,12 @@ class Repository {
     })
   }
 
-  updateExistingTask (idStatusArr, callback) {
-    console.log('updateExistingTask')
-    var id = idStatusArr[0]
-    var newStatus = idStatusArr[1]
+  modifyTask (id, task, callback) {
+    console.log('modifyTask')
     MongoClient.connect(this.url, (err, db) => {
       if (err) return console.error('Failed to connect', err)
-      db.collection('tasks').update({_id: new ObjectID(id)}, {$set: {'status': newStatus}}, (err, result) => {
-        if (err) return console.error('Failed to add task.', err)
-        callback()
-      })
-    })
-  }
-
-  updateStartTime (id, callback) {
-    console.log('updateStartTime')
-    console.log(id)
-    MongoClient.connect(this.url, (err, db) => {
-      if (err) return console.error('Failed to connect', err)
-      db.collection('tasks').update({_id: new ObjectID(id)}, {$set: {'startDate': new Date()}}, (err, result) => {
-        if (err) return console.error('Failed to update startDate.', err)
+      db.collection('tasks').update({_id: new ObjectID(id)}, {$set: task}, (err, result) => {
+        if (err) return console.error('Failed to update task.', err)
         callback()
       })
     })

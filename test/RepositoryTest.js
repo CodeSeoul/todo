@@ -1,12 +1,13 @@
-const Repository = require('../src/repository')
+const Repository = require('../src/Repository')
 const expect = require('chai').expect
 const MongoClient = require('mongodb').MongoClient
 const url = 'mongodb://localhost:27017/test'
 
-let repo
-let testId
-let testIdArr
 describe('Repository', function () {
+  let repo
+  let testId
+  let testIdArr
+
   before(function (done) {
     repo = new Repository(url)
     let data = [
@@ -68,30 +69,31 @@ describe('Repository', function () {
     })
   })
 
-  describe('#updateExistingTask', function () {
-    it('should update an existing task', function (done) {
-      var idStatusArr = [testId, 'Done', 'changeStatus']
-      repo.updateExistingTask(idStatusArr, (id) => {
-        console.log('- _id:', id)
-        expect(id).to.not.be.equal(null)
-        repo.findTasks(tasks => {
-          console.log('- after addTask => findTask:', tasks)
-          expect(tasks[4].status).to.equal('Done')
-          done()
+  describe('#modifyTask', function () {
+    it('should modify the status of a task', function (done) {
+      repo.modifyTask(testId, {status: 'Done'}, _ => {
+        MongoClient.connect(url, (err, db) => {
+          expect(err).to.be.equal(null)
+          db.collection('tasks').findOne(testId, (err, task) => {
+            expect(err).to.be.equal(null)
+            expect(task.status).to.be.equal('Done')
+            db.close()
+            done()
+          })
         })
       })
     })
-  })
-
-  describe('#updateStartTime', function () {
-    it('should add a start time', function (done) {
-      repo.updateStartTime(testId, _ => {
-        console.log('- _id:', testId)
-        expect(testId).to.not.be.equal(null)
-        repo.findTasks(tasks => {
-          console.log('- after updateStartTime => findTask:', tasks)
-          expect(tasks[4].startTime).to.not.be.equal(null)
-          done()
+    it('should modify the start date of a task', function (done) {
+      let testStartDate = new Date()
+      repo.modifyTask(testId, {startDate: testStartDate}, _ => {
+        MongoClient.connect(url, (err, db) => {
+          expect(err).to.be.equal(null)
+          db.collection('tasks').findOne(testId, (err, task) => {
+            expect(err).to.be.equal(null)
+            expect(task.startDate).to.be.eql(testStartDate)
+            db.close()
+            done()
+          })
         })
       })
     })
