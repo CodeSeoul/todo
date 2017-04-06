@@ -14,7 +14,9 @@ $(document).ready(() => {
 function postNewTodo (event) {
   let task = {
     title: $('#inAdd').val(),
-    status: 'ToDo'
+    status: 'ToDo',
+    timeSubmissions: [],
+    totalTime: 0,
   }
   let result = validateTodo(task)
   if (!result.valid) {
@@ -31,10 +33,59 @@ function updateExistingTask (id, status) {
   })
 }
 
-function updateStartTime (id) {
-  ajax.modifyTask(id, {startDate: new Date()}, data => {
+function timerStart (id) {
+  ajax.modifyTask(id, {timerStart: Date.now()}, data => {
     updateView()
   })
+}
+
+function timerStop (id) {
+  ajax.modifyTask(id, {timerStop: Date.now()}, data => {
+    updateView()
+  })
+
+  createTimeSubmission(id)
+}
+
+function createTimeSubmission(id) {
+  ajax.findTasks(tasks => {
+    let task = tasks.filter(function(task) {
+      return task._id === id;
+    })
+
+    let startTime = task[0].timerStart
+    let stopTime = task[0].timerStop
+
+    let currentTotalTime = stopTime - startTime
+    let oldTotalTime = task[0].totalTime
+    let newTotalTime = oldTotalTime += currentTotalTime
+
+    let allTimeSubmissions = task[0].timeSubmissions
+    allTimeSubmissions.push({ timeStamp : new Date(), totalMilliseconds : currentTotalTime })
+
+    ajax.modifyTask(id, {totalTime: newTotalTime}, data => {
+      updateView()
+    })
+
+    ajax.modifyTask(id, {timeSubmissions: allTimeSubmissions}, data => {
+      updateView()
+    })
+  })
+}
+
+function convertToTime(milliseconds) {
+  let seconds = (milliseconds / 1000) % 60 ;
+  let minutes = ((milliseconds / (1000*60)) % 60);
+  let hours   = ((milliseconds / (1000*60*60)) % 24);
+  if (hours >= 1) {
+    return Math.floor(hours) + ':' + pad(Math.floor(minutes)) + ':' + pad(Math.floor(seconds))
+  } else {
+    return pad(Math.floor(minutes)) + ':' + pad(Math.floor(seconds))
+  }
+
+  function pad(num) {
+    return num > 10 ? num : '0' + num
+  }
 }
 
 function removeTask (id) {
@@ -83,10 +134,11 @@ function updateView () {
             <b>${task.title}</b>
             </label>
             <span class="pull-right">
-            <span id="timeDate">${task.startDate ? task.startDate.slice(0, 10) : ''}</span>
-            <span id="timeHour">${task.startDate ? task.startDate.slice(11, 16) : ''}</span>
-            <button id="startButton" onclick="updateStartTime('${task._id}')">Start</button>
-            <button id="stopButton" onclick="updateStopTime('${task._id}')">Stop</button>
+            <span id="totalTime">${task.totalTime > 0 ? convertToTime(task.totalTime) : ''}</span>
+            <span id="timeDate">${task.startDate ? task.startTime.slice(0, 10) : ''}</span>
+            <span id="timeHour">${task.startDate ? task.startTime.slice(11, 16) : ''}</span>
+            <button id="startButton" onclick="timerStart('${task._id}')">Start</button>
+            <button id="stopButton" onclick="timerStop('${task._id}')">Stop</button>
               <button onclick="removeTask('${task._id}')">
                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
               </button>
