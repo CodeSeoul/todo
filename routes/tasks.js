@@ -26,27 +26,19 @@ function routeGet (req, res) {
 
 function routePost (req, res) {
   req.on('data', (data) => {
-    console.log(data)
-    if (data.indexOf('changeStatus') > 1) {
-      console.log('deleteAllData')
-      repo.updateExistingTask(JSON.parse(data), _ => {
-        res.end(JSON.stringify(data))
-      })
-    } else {
-      console.log('data:', data)
-      repo.addTask(JSON.parse(data), _ => {
-        res.end(data)
-      })
-    }
+    repo.addTask(JSON.parse(data), _ => {
+      res.end(data)
+    })
   })
 }
 
 function routePut (req, res) {
+  let id = req.url.match(/\/tasks\/(.*)/)[1]
   req.setEncoding('utf8')
   req.on('data', (data) => {
     console.log(data)
-    repo.updateStartTime(JSON.parse(data), _ => {
-      res.end(JSON.stringify(data))
+    repo.modifyTask(id, JSON.parse(data), _ => {
+      res.end('{}')
     })
   })
 }

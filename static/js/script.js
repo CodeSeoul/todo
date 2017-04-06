@@ -25,16 +25,14 @@ function postNewTodo (event) {
   })
 }
 
-function updateExistingTask (id, value) {
-  ajax.updateExistingTask([id, value, 'changeStatus'], data => {
+function updateExistingTask (id, status) {
+  ajax.modifyTask(id, {status: status}, data => {
     updateView()
   })
 }
 
 function updateStartTime (id) {
-  console.log('updateStartTime')
-  console.log(id)
-  ajax.updateStartTime(id, data => {
+  ajax.modifyTask(id, {startDate: new Date()}, data => {
     updateView()
   })
 }
