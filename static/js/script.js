@@ -85,7 +85,8 @@ function updateView () {
             <span class="pull-right">
             <span id="timeDate">${task.startDate ? task.startDate.slice(0, 10) : ''}</span>
             <span id="timeHour">${task.startDate ? task.startDate.slice(11, 16) : ''}</span>
-            <button onclick="updateStartTime('${task._id}')">Start Time</button>
+            <button id="startButton" onclick="updateStartTime('${task._id}')">Start</button>
+            <button id="stopButton" onclick="updateStopTime('${task._id}')">Stop</button>
               <button onclick="removeTask('${task._id}')">
                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
               </button>

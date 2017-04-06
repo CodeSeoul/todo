@@ -31,6 +31,7 @@ input[type="text"]{
 button{
   background-color: #C5CAE9;
   margin: 0px 3px 3px 3px;
+  border: none;
 }
 
 .btn-group {
@@ -67,11 +68,18 @@ select:focus {
   outline: none;
 }
 
-#timeDate, #timeHour {
-  font-size: 20px;
-  padding-right: 12px;
+#startButton, #stopButton {
+  border: none;
+  border: 1px solid #999;
+  border-radius: 10px;
+  color: #fff;
+  padding: 6px 20px;
 }
 
-button #startTime {
+#startButton {
+  background-color: #489030;
+}
 
+#stopButton {
+  background-color: #ED4337;
 }
