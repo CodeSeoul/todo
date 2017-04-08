@@ -10,7 +10,7 @@ class Repository {
     console.log('findTasks')
     MongoClient.connect(this.url, (err, db) => {
       if (err) return console.error('Failed to connect.', err)
-      db.collection('tasks').find({}).toArray((err, tasks) => {
+      db.collection('tasks').find({}).sort({_id:1}).toArray((err, tasks) => {
         if (err) return console.error('Failed to find tasks.', err)
         callback(tasks)
       })

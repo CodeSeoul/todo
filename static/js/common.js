@@ -55,3 +55,37 @@ function validateTodo (task) {
     valid: true
   }
 }
+
+let timer
+
+function incrementSeconds(state) {
+  let sec = 1;
+
+  $('#seconds').html('00:00')
+
+  if (state === 'on') {
+    timer = setInterval(function(){
+      $('#seconds').html(pad(sec % 60))
+      $("#minutes").html(pad(parseInt(sec/60)) + ':')
+      sec++
+    }, 1000)
+  } else {
+    // location.reload()
+    clearInterval(timer)
+  }
+}
+
+function convertTimeFormat(milliseconds) {
+  let seconds = (milliseconds / 1000) % 60 ;
+  let minutes = ((milliseconds / (1000*60)) % 60);
+  let hours   = ((milliseconds / (1000*60*60)) % 24);
+  if (hours >= 1) {
+    return Math.floor(hours) + ':' + pad(Math.floor(minutes)) + ':' + pad(Math.floor(seconds))
+  } else {
+    return pad(Math.floor(minutes)) + ':' + pad(Math.floor(seconds))
+  }
+}
+
+function pad(num) {
+  return num > 10 ? num : '0' + num
+}

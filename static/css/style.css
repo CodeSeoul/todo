@@ -58,8 +58,8 @@ b {
 }
 
 select {
-  width: 60px;
-  height: 20px;
+  width: 80px;
+  height: 30px;
   font-size: 12px;
   margin: 10px 20px 10px 0;
 }
@@ -68,18 +68,49 @@ select:focus {
   outline: none;
 }
 
-#startButton, #stopButton {
+/*#startButton, #stopButton {
   border: none;
   border: 1px solid #999;
   border-radius: 10px;
   color: #fff;
   padding: 6px 20px;
-}
+}*/
 
-#startButton {
+/*#startButton {
   background-color: #489030;
 }
 
 #stopButton {
   background-color: #ED4337;
+}*/
+#seconds, #minutes {
+  font-size: 30px;
+  color: #444;
+  font-weight: bold;
+}
+
+#totalTime {
+  display: inline-block;
+  font-size: 20px;
+  padding-right: 20px;
+  vertical-align: -10px;
+  width: 60px;
+}
+
+#totalTime:before {
+  position: absolute;
+  top: 8px;
+  content: "Total";
+  font-size: 14px;
+  font-weight: bold;
+}
+
+#buttonContainer {
+  margin-top: 10px;
+}
+
+#timeClock {
+  display: inline-block;
+  vertical-align: -8px;
+  padding-right: 10px;
 }

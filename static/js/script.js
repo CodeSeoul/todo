@@ -33,39 +33,21 @@ function updateExistingTask (id, status) {
   })
 }
 
-function timerStart (id) {
-  ajax.modifyTask(id, {timerStart: Date.now()}, data => {
-    updateView()
-  })
-}
-
-function timerStop (id) {
-  ajax.modifyTask(id, {timerStop: Date.now()}, data => {
-    updateView()
-  })
-
-  createTimeSubmission(id)
-}
-
-function createTimeSubmission(id) {
+function createTimeSubmission(id, currentTotalTime) {
   ajax.findTasks(tasks => {
     let task = tasks.filter(function(task) {
       return task._id === id;
     })
 
-    let startTime = task[0].timerStart
-    let stopTime = task[0].timerStop
-
-    let currentTotalTime = stopTime - startTime
     let oldTotalTime = task[0].totalTime
     let newTotalTime = oldTotalTime += currentTotalTime
-
-    let allTimeSubmissions = task[0].timeSubmissions
-    allTimeSubmissions.push({ timeStamp : new Date(), totalMilliseconds : currentTotalTime })
 
     ajax.modifyTask(id, {totalTime: newTotalTime}, data => {
       updateView()
     })
+
+    let allTimeSubmissions = task[0].timeSubmissions
+    allTimeSubmissions.push({ timeStamp : new Date(), totalMilliseconds : currentTotalTime })
 
     ajax.modifyTask(id, {timeSubmissions: allTimeSubmissions}, data => {
       updateView()
@@ -73,19 +55,27 @@ function createTimeSubmission(id) {
   })
 }
 
-function convertToTime(milliseconds) {
-  let seconds = (milliseconds / 1000) % 60 ;
-  let minutes = ((milliseconds / (1000*60)) % 60);
-  let hours   = ((milliseconds / (1000*60*60)) % 24);
-  if (hours >= 1) {
-    return Math.floor(hours) + ':' + pad(Math.floor(minutes)) + ':' + pad(Math.floor(seconds))
-  } else {
-    return pad(Math.floor(minutes)) + ':' + pad(Math.floor(seconds))
-  }
+function timerStart(id) {
+  console.log('.btnStart Array:', $('.btnStart'))
+  // let keys = Object.keys($('.btnStart'))
+  // console.log(keys);
+  $('.btnStart').hide()
+  currentTime.startTime = Date.now()
+  incrementSeconds('on')
+  updateView()
+}
 
-  function pad(num) {
-    return num > 10 ? num : '0' + num
-  }
+function timerStop(id) {
+  currentTime.stopTime = Date.now()
+  totalTime = currentTime.stopTime - currentTime.startTime
+
+  incrementSeconds('off')
+  createTimeSubmission(id, totalTime)
+}
+
+let currentTime = {
+  startTime: 0,
+  stopTime: 0,
 }
 
 function removeTask (id) {
@@ -129,20 +119,21 @@ function updateView () {
               <option value="Doing" ${task.status === 'Doing' ? 'selected' : ''}>Doing</option>
               <option value="Done" ${task.status === 'Done' ? 'selected' : ''}>Done</option>
             </select>
+            <span id="totalTime">${task.totalTime > 0 ? convertTimeFormat(task.totalTime) : ''}</span>
             <label>
             <input type="checkbox" name="checkRemove" id='${task._id}' />
             <b>${task.title}</b>
             </label>
             <span class="pull-right">
-            <span id="totalTime">${task.totalTime > 0 ? convertToTime(task.totalTime) : ''}</span>
-            <span id="timeDate">${task.startDate ? task.startTime.slice(0, 10) : ''}</span>
-            <span id="timeHour">${task.startDate ? task.startTime.slice(11, 16) : ''}</span>
-            <button id="startButton" onclick="timerStart('${task._id}')">Start</button>
-            <button id="stopButton" onclick="timerStop('${task._id}')">Stop</button>
+            <div id="buttonContainer">
+            <div id="timeClock"><span id="hours"></span><span id="minutes"></span><span id="seconds"></span></div>
+            <button class="btnStart btn btn-success" onclick="timerStart('${task._id}')">Start</button>
+            <button class="btnStop btn btn-danger" onclick="timerStop('${task._id}')">Stop</button>
               <button onclick="removeTask('${task._id}')">
                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
               </button>
             </span>
+            </div>
           </li>
         `
       })
