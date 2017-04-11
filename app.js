@@ -1,31 +1,11 @@
-const http = require('http')
-const fs = require('fs')
-
+const express = require('express')
+const app = express()
+const path = require('path')
 const tasks = require('./routes/tasks')
+const port = 3000
 
-const server = http.createServer((req, res) => {
-  req.setEncoding('utf8')
+app.use(express.static('public'))
 
-  if (req.url === '/') {
-    serveStatic('/index.html', res)
-  } else if (/\/tasks\/?(.*)/.test(req.url)) {
-    tasks.route(req, res)
-  } else {
-    serveStatic(req.url, res)
-  }
+app.listen(port, _ => {
+  console.log("Server is running on port", port)
 })
-
-server.listen(3000, () => console.log('running on 3000'))
-
-function serveStatic (path, res) {
-  fs.readFile('static' + path, (err, data) => {
-    if (err) pageNotFound(res)
-    res.end(data)
-  })
-}
-
-function pageNotFound (res) {
-  console.log("couldn't find CSS")
-  res.statusCode = 404
-  res.end('Page not found')
-}
