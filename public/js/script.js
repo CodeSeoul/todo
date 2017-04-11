@@ -4,7 +4,7 @@ $(document).ready(() => {
   $('#btnClear').click(removeAllTasks)
   $('#btnAdd').click(postNewTodo)
   $('#inAdd').keypress(event => {
-    if(event.which === 13) {
+    if (event.which === 13) {
       event.preventDefault() // prvent blinking
       postNewTodo()
     }

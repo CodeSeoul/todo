@@ -1,31 +1,50 @@
-const http = require('http')
-const fs = require('fs')
+const express = require('express')
+const bodyParser = require('body-parser')
+const logger = require('morgan')
+const app = express()
+const port = 3000
 
-const tasks = require('./routes/tasks')
+const Repository = require('./src/Repository')
+const repo = new Repository()
 
-const server = http.createServer((req, res) => {
-  req.setEncoding('utf8')
+app.use(express.static('public'))
+app.use(bodyParser.json())
+app.use(logger('dev'))
 
-  if (req.url === '/') {
-    serveStatic('/index.html', res)
-  } else if (/\/tasks\/?(.*)/.test(req.url)) {
-    tasks.route(req, res)
+app.get('/tasks', (req, res) => {
+  repo.findTasks(tasks => {
+    res.send(JSON.stringify(tasks))
+  })
+})
+
+app.delete('/tasks', (req, res) => {
+  let arr = req.body
+//  console.log(arr.indexOf('ALL'))
+  if (arr.indexOf('ALL') === 0) {
+    console.log('deleteAllData')
+    repo.deleteAllTasks(_ => {
+      res.end('{}')
+    })
   } else {
-    serveStatic(req.url, res)
+    console.log('deleteData:', arr)
+    repo.deleteSelectedTasks(arr, _ => {
+      res.end('{}')
+    })
   }
 })
 
-server.listen(3000, () => console.log('running on 3000'))
-
-function serveStatic (path, res) {
-  fs.readFile('static' + path, (err, data) => {
-    if (err) pageNotFound(res)
-    res.end(data)
+app.put('/tasks/:id', (req, res) => {
+  repo.modifyTask(req.params.id, req.body, () => {
+    res.send({})
   })
-}
+})
 
-function pageNotFound (res) {
-  console.log("couldn't find CSS")
-  res.statusCode = 404
-  res.end('Page not found')
-}
+app.post('/tasks', (req, res) => {
+  repo.addTask(req.body, (id) => {
+    res.send(id)
+  })
+})
+
+app.listen(port, _ => {
+  console.log('Server is running on port', port)
+})
