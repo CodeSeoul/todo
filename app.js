@@ -6,6 +6,7 @@ const port = 3000
 
 app.use(express.static('public'))
 
+
 app.listen(port, _ => {
   console.log("Server is running on port", port)
 })

@@ -20,7 +20,7 @@ const server = http.createServer((req, res) => {
 server.listen(3000, () => console.log('running on 3000'))
 
 function serveStatic (path, res) {
-  fs.readFile('static' + path, (err, data) => {
+  fs.readFile('public' + path, (err, data) => {
     if (err) pageNotFound(res)
     res.end(data)
   })
