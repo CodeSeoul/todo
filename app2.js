@@ -1,4 +1,4 @@
-//backup for non-express app
+// backup for non-express app
 
 const http = require('http')
 const fs = require('fs')
