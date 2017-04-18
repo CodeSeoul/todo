@@ -26,8 +26,10 @@
   },
   "dependencies": {
     "body-parser": "^1.17.1",
+    "consolidate": "^0.14.5",
     "express": "^4.15.2",
     "mongodb": "^2.2.25",
-    "morgan": "^1.8.1"
+    "morgan": "^1.8.1",
+    "mustache": "^2.3.0"
   }
 }

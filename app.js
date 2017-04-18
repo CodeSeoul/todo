@@ -1,13 +1,20 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const logger = require('morgan')
-const app = express()
+const cons = require('consolidate')
+const path = require('path')
 const port = 3000
 
 const Repository = require('./src/Repository')
 const repo = new Repository()
 
-app.use(express.static('public'))
+const app = express()
+
+app.engine('html', cons.mustache)
+app.set('view engine', 'html')
+app.set('views', path.join(__dirname, 'views'))
+
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.json())
 app.use(logger('dev'))
 
@@ -43,6 +50,15 @@ app.post('/tasks', (req, res) => {
   repo.addTask(req.body, (id) => {
     res.send(id)
   })
+})
+
+app.get('/admin', (req, res) => {
+  let fakeUsers = [
+    {name: 'Dale Seo'},
+    {name: 'Benjamin Sadick'},
+    {name: 'Nate Lipp'}
+  ]
+  res.render('admin', {users: fakeUsers})
 })
 
 app.listen(port, _ => {
