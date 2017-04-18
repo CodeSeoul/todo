@@ -4,9 +4,10 @@ const logger = require('morgan')
 const cons = require('consolidate')
 const path = require('path')
 const port = 3000
-
+const UserRepository = require('./src/UserRepository')
 const Repository = require('./src/Repository')
 const repo = new Repository()
+const userRepo = new UserRepository()
 
 const app = express()
 
@@ -53,12 +54,10 @@ app.post('/tasks', (req, res) => {
 })
 
 app.get('/admin', (req, res) => {
-  let fakeUsers = [
-    {name: 'Dale Seo'},
-    {name: 'Benjamin Sadick'},
-    {name: 'Nate Lipp'}
-  ]
-  res.render('admin', {users: fakeUsers})
+  userRepo.findUsers(users => {
+    console.log(users)
+    res.render('admin', {users: users})
+  })
 })
 
 app.listen(port, _ => {
