@@ -10,14 +10,23 @@
 <body>
   <div class="container">
     <div class="page-header">
-      <h1>User List</h1>
+      <h1>User List <button type="button" onclick="window.location.href='/users/signup'" class="btn btn-success">add user</button></h1>
     </div>
     <ul class="list-group">
-      {{#users}}
-        <a href="" class="list-group-item">{{name}}</a>
-
-      {{/users}}
+      <% users.forEach(function (user) { %>
+        <li class="list-group-item">
+          <%=user.name%> : <%=user.email%>
+          <button type="button" onclick="deleteUser('<%=user._id%>')" class="btn btn-xs btn-danger pull-right">delete</button>
+        </li>
+      <% }) %>
     </ul>
   </div>
+  <script>
+    function deleteUser(id) {
+      if (window.confirm('Are you sure?')) {
+        window.location.href = `/users/${id}/del`
+      }
+    }
+  </script>
 </body>
 </html>
