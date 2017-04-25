@@ -1,5 +1,5 @@
 const MongoClient = require('mongodb').MongoClient
-// const ObjectID = require('mongodb').ObjectID
+const ObjectID = require('mongodb').ObjectID
 
 class UserRepository {
   constructor (url) {
@@ -13,6 +13,17 @@ class UserRepository {
         if (err) return console.error('Failed to find users', err)
         console.log(users)
         callback(users)
+      })
+    })
+  }
+
+  deleteUser(id, callback){
+    console.log('Delete User')
+    MongoClient.connect(this.url, (err, db) => {
+      if (err) return console.error('Failed to connect', err)
+      db.collection('users').deleteOne({_id: new ObjectID(id)}, (err, result) => {
+        if (err) return console.error('Failed to delete user', err)
+        callback()
       })
     })
   }

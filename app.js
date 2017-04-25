@@ -58,6 +58,12 @@ app.get('/admin', (req, res) => {
   })
 })
 
+app.get('/users/:id/del', (req, res) =>{
+  userRepo.deleteUser(req.params.id, _ =>{
+    res.redirect('/admin')
+  })
+})
+
 app.listen(port, _ => {
   console.log('Server is running on port', port)
 })
