@@ -17,13 +17,24 @@ class UserRepository {
     })
   }
 
-  deleteUser(id, callback){
+  deleteUser (id, callback) {
     console.log('Delete User')
     MongoClient.connect(this.url, (err, db) => {
       if (err) return console.error('Failed to connect', err)
       db.collection('users').deleteOne({_id: new ObjectID(id)}, (err, result) => {
         if (err) return console.error('Failed to delete user', err)
         callback()
+      })
+    })
+  }
+
+  addUser (user, callback) {
+    console.log('Add User')
+    MongoClient.connect(this.url, (err, db) => {
+      if (err) return console.error('Failed to connect', err)
+      db.collection('users').insertOne(user, (err, result) => {
+        if (err) return console.error('Failed to add user', err)
+        callback(result.ops[0]._id)
       })
     })
   }
