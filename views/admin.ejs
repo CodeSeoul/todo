@@ -14,15 +14,18 @@
     </div>
     <ul class="list-group">
       <% users.forEach(function (user) { %>
-        <a href="" class="list-group-item"><%=user.name%> : <%=user.email%>
-          <button onclick="deleteUser('<%=user._id%>')" class="btn btn-xs btn-danger pull-right">delete</button>
-        </a>
+        <li class="list-group-item">
+          <%=user.name%> : <%=user.email%>
+          <button type="button" onclick="deleteUser('<%=user._id%>')" class="btn btn-xs btn-danger pull-right">delete</button>
+        </li>
       <% }) %>
     </ul>
   </div>
   <script>
     function deleteUser(id) {
-
+      if (window.confirm('Are you sure?')) {
+        window.location.href = `/users/${id}/del`
+      }
     }
   </script>
 </body>
