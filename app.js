@@ -1,7 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const logger = require('morgan')
-const cons = require('consolidate')
 const path = require('path')
 const port = 3000
 const UserRepository = require('./src/UserRepository')
@@ -11,8 +10,7 @@ const userRepo = new UserRepository()
 
 const app = express()
 
-app.engine('html', cons.mustache)
-app.set('view engine', 'html')
+app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 
 app.use(express.static(path.join(__dirname, 'public')))
