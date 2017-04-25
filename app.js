@@ -1,13 +1,21 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const logger = require('morgan')
-const app = express()
+const cons = require('consolidate')
+const path = require('path')
 const port = 3000
-
+const UserRepository = require('./src/UserRepository')
 const Repository = require('./src/Repository')
 const repo = new Repository()
+const userRepo = new UserRepository()
 
-app.use(express.static('public'))
+const app = express()
+
+app.engine('html', cons.mustache)
+app.set('view engine', 'html')
+app.set('views', path.join(__dirname, 'views'))
+
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.json())
 app.use(logger('dev'))
 
@@ -42,6 +50,13 @@ app.put('/tasks/:id', (req, res) => {
 app.post('/tasks', (req, res) => {
   repo.addTask(req.body, (id) => {
     res.send(id)
+  })
+})
+
+app.get('/admin', (req, res) => {
+  userRepo.findUsers(users => {
+    console.log(users)
+    res.render('admin', {users: users})
   })
 })
 
