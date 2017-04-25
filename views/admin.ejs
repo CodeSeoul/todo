@@ -14,9 +14,16 @@
     </div>
     <ul class="list-group">
       <% users.forEach(function (user) { %>
-        <a href="" class="list-group-item"><%=user.name%></a>
+        <a href="" class="list-group-item"><%=user.name%> : <%=user.email%>
+          <button onclick="deleteUser('<%=user._id%>')" class="btn btn-xs btn-danger pull-right">delete</button>
+        </a>
       <% }) %>
     </ul>
   </div>
+  <script>
+    function deleteUser(id) {
+
+    }
+  </script>
 </body>
 </html>
