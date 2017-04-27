@@ -17,11 +17,11 @@ class UserRepository {
     })
   }
 
-  findUsers (id, callback) {
+  findUser (id, callback) {
     console.log('Find User')
     MongoClient.connect(this.url, (err, db) => {
       if (err) return console.error('Failed to connect', err)
-      db.collection('users').findOne({_id: new ObjectID(id)}, ((err, user) => {
+      db.collection('users').findOne({_id: new ObjectID(id)}, (err, user) => {
         if (err) return console.error('Failed to find user', err)
         console.log(user)
         callback(user)

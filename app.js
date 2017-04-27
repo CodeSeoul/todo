@@ -66,13 +66,6 @@ app.get('/users/:id/del', (req, res) => {
   })
 })
 
-app.get('/users/:id', (req, res) => {
-  console.log(req.params.id);
-  userRepo.findUser(req.params.id, _ => {
-    console.log('here')
-    res.render('users/' + req.params.id, {users: user})
-  })
-})
 
 app.get('/users/signup', (req, res) => {
   res.render('signup')
@@ -81,6 +74,14 @@ app.get('/users/signup', (req, res) => {
 app.post('/users/signup', (req, res) => {
   userRepo.addUser(req.body, (id) => {
     res.redirect('/admin')
+  })
+})
+
+app.get('/user/:id', (req, res) => {
+  console.log("user id :",req.params.id);
+  userRepo.findUser(req.params.id, function (user) {
+    console.log(user)
+    res.render('user', {user})
   })
 })
 
