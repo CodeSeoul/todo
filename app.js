@@ -66,7 +66,6 @@ app.get('/users/:id/del', (req, res) => {
   })
 })
 
-
 app.get('/users/signup', (req, res) => {
   res.render('signup')
 })
@@ -78,7 +77,7 @@ app.post('/users/signup', (req, res) => {
 })
 
 app.get('/user/:id', (req, res) => {
-  console.log("user id :",req.params.id);
+  console.log('user id :', req.params.id)
   userRepo.findUser(req.params.id, (user) => {
     console.log(user)
     res.render('user', {user})
