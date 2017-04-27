@@ -66,6 +66,14 @@ app.get('/users/:id/del', (req, res) => {
   })
 })
 
+app.get('/users/:id', (req, res) => {
+  console.log(req.params.id);
+  userRepo.findUser(req.params.id, _ => {
+    console.log('here')
+    res.render('users/' + req.params.id, {users: user})
+  })
+})
+
 app.get('/users/signup', (req, res) => {
   res.render('signup')
 })
