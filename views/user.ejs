@@ -4,29 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>ToDo Admin</title>
+  <title>ToDo <%=user.name%></title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
   <div class="container">
     <div class="page-header">
-      <h1>User List <button type="button" onclick="window.location.href='/users/signup'" class="btn btn-success">add user</button></h1>
+      <h1><%=user.name%></h1>
+      <img src="https://www.appointbetterboards.co.nz/Custom/Appoint/img/avatar-large.png"/>
     </div>
     <ul class="list-group">
-      <% users.forEach(function (user) { %>
         <li class="list-group-item">
-          <a href="user/<%=user._id%>"><%=user.name%> : <%=user.email%></a>
-          <button type="button" onclick="deleteUser('<%=user._id%>')" class="btn btn-xs btn-danger pull-right">delete</button>
+          <%=user.name%> : <%=user.email%>
         </li>
-      <% }) %>
+        <a href="../admin">Admin</a>
     </ul>
   </div>
   <script>
-    function deleteUser(id) {
-      if (window.confirm('Are you sure?')) {
-        window.location.href = `/users/${id}/del`
-      }
-    }
+
   </script>
 </body>
 </html>

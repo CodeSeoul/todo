@@ -76,6 +76,14 @@ app.post('/users/signup', (req, res) => {
   })
 })
 
+app.get('/user/:id', (req, res) => {
+  console.log('user id :', req.params.id)
+  userRepo.findUser(req.params.id, (user) => {
+    console.log(user)
+    res.render('user', {user})
+  })
+})
+
 app.listen(port, _ => {
   console.log('Server is running on port', port)
 })
